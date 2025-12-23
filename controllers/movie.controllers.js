@@ -1,6 +1,7 @@
 import Movie from "../models/movie.mode.js";
 
 
+
 const createMovie = async (req, res) => {
   try {
     const movie = await Movie.create(req.body)
@@ -13,7 +14,7 @@ const createMovie = async (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      success: true,
+      success: false,
       error: error,
       data: {},
       message: "Something went wrong"
@@ -22,4 +23,27 @@ const createMovie = async (req, res) => {
 }
 
 
-export {createMovie};
+const deleteMovie = async (req, res) => {
+  try {
+    const response = await Movie.deleteOne({
+      _id: req.params.id
+    })
+    return res.status(201).json({
+      success: true,
+      error: {},
+      message: 'Successfully deleted the movie',
+      data: response
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(201).json({
+      success: false,
+      error: error,
+      message: 'Something went wrong',
+      data: {}
+    });
+  }
+}
+
+
+export { createMovie, deleteMovie };
