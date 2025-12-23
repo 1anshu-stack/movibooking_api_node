@@ -1,4 +1,4 @@
-import { createMovie, deleteMovie} from "../controllers/movie.controllers.js";
+import { createMovie, deleteMovie, getMovie} from "../controllers/movie.controllers.js";
 
 
 const routes = (app) => {
@@ -10,6 +10,11 @@ const routes = (app) => {
   app.delete(
     '/mba/api/v1/movies/:id',
     deleteMovie
+  )
+
+  app.get(
+    '/mba/api/v1/movies/:id',
+    getMovie
   )
 }
 
