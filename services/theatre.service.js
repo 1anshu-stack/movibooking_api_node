@@ -19,8 +19,13 @@ const createTheatrefn = async (data) => {
   }
 }
 
-
+const deleteTheatrefn = async (id) => {
+  console.log("service:",id)
+  const response = await Theatre.findByIdAndDelete(id);
+  return response;
+}
 
 export {
-  createTheatrefn
+  createTheatrefn,
+  deleteTheatrefn
 }

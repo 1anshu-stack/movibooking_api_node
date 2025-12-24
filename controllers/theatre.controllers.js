@@ -1,7 +1,10 @@
 import { successResponseBody, errorResponseBody } from "../utils/responseBody.js";
 
 
-import {createTheatrefn} from "../services/theatre.service.js"
+import { 
+  createTheatrefn, 
+  deleteTheatrefn 
+} from "../services/theatre.service.js"
 
 
 const createTheatre = async (req, res) => {
@@ -24,6 +27,24 @@ const createTheatre = async (req, res) => {
 }
 
 
+const deleteTheatre = async (req, res) => {
+  try {
+    console.log(req.params.id)
+    console.log(req.params)
+    const response = await deleteTheatrefn(req.params.id);
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Theatre information delete successfully"
+    return res.status(202).json(successResponseBody)    
+  } catch (error) {
+    console.log(error)
+    errorResponseBody.error = error
+    return res.status(500).json(errorResponseBody);
+  }
+}
+
+
 export {
-  createTheatre
+  createTheatre,
+  deleteTheatre
 }
