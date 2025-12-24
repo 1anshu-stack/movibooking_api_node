@@ -20,10 +20,22 @@ const createTheatrefn = async (data) => {
 }
 
 const deleteTheatrefn = async (id) => {
-  console.log("service:",id)
-  const response = await Theatre.findByIdAndDelete(id);
-  return response;
+  try {
+    const response = await Theatre.findByIdAndDelete(id);
+    if(!response){
+      return {
+        err: "No record of a theatre found for the given id",
+        code: 404
+      }
+    }
+
+    return response;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
 }
+
 
 export {
   createTheatrefn,

@@ -22,8 +22,20 @@ const createMovieFn = async (data) => {
 
 
 const deleteMovieFn = async (id) => {
-  const movie = await Movie.findByIdAndDelete(id)
-  return movie; 
+  try {
+    const movie = await Movie.findByIdAndDelete(id)
+    if(!response){
+      return {
+        err: "No record of a theatre found for the given id",
+        code: 404
+      }
+    }
+
+    return movie;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  } 
 }
 
 

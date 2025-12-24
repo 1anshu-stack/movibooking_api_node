@@ -13,6 +13,11 @@ const routes = (app) => {
     '/mba/api/v1/theatre/:id',
     deleteTheatre
   )
+
+  app.get(
+    '/mba/api/v1/theatre/:id',
+     
+  )
 }
 
 export default routes;

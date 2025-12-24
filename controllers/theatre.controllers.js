@@ -33,6 +33,10 @@ const deleteTheatre = async (req, res) => {
     console.log(req.params)
     const response = await deleteTheatrefn(req.params.id);
 
+    if(response.err){
+      errorResponseBody.error = response.err
+      return res.status(response.code).json(errorResponseBody)
+    }
     successResponseBody.data = response;
     successResponseBody.message = "Theatre information delete successfully"
     return res.status(202).json(successResponseBody)    
