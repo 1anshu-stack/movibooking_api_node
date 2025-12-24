@@ -1,4 +1,4 @@
-import { createTheatre, deleteTheatre } from "../controllers/theatre.controllers.js"
+import { createTheatre, deleteTheatre, getTheatre } from "../controllers/theatre.controllers.js"
 import { validateTheatreCreateRequest } from "../middleware/theatre.middleware.js"
 
 
@@ -16,7 +16,7 @@ const routes = (app) => {
 
   app.get(
     '/mba/api/v1/theatre/:id',
-     
+    getTheatre
   )
 }
 

@@ -19,6 +19,7 @@ const createTheatrefn = async (data) => {
   }
 }
 
+
 const deleteTheatrefn = async (id) => {
   try {
     const response = await Theatre.findByIdAndDelete(id);
@@ -37,7 +38,31 @@ const deleteTheatrefn = async (id) => {
 }
 
 
+/**
+ * 
+ * @param id -> it is the unique _id based on which we will fetch a theatre.
+ */
+
+const getTheatrefn = async (id) => {
+  try {
+    const response = await Theatre.findById(id);
+    if(!response){
+      return {
+        err: "No record of a theatre found for the given id",
+        code: 404
+      }
+    }
+
+    return response
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+
 export {
   createTheatrefn,
-  deleteTheatrefn
+  deleteTheatrefn,
+  getTheatrefn
 }

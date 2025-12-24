@@ -3,7 +3,8 @@ import { successResponseBody, errorResponseBody } from "../utils/responseBody.js
 
 import { 
   createTheatrefn, 
-  deleteTheatrefn 
+  deleteTheatrefn,
+  getTheatrefn
 } from "../services/theatre.service.js"
 
 
@@ -48,7 +49,27 @@ const deleteTheatre = async (req, res) => {
 }
 
 
+const getTheatre = async (req, res) => {
+  try {
+    const response = await getTheatrefn(req.params.id);
+    if(response.err){
+      errorResponseBody.error = response.err;
+      return res.status(response.code).json(errorResponseBody)
+    }
+
+    successResponseBody.data = response;
+    successResponseBody.message = "successfully fetched the data of the theatre"
+    return res.status(201).json(successResponseBody)
+  } catch (error) {
+    console.log(error)
+    errorResponseBody.error = error
+    return res.status(500).json(errorResponseBody)
+  }
+}
+
+
 export {
   createTheatre,
-  deleteTheatre
+  deleteTheatre,
+  getTheatre
 }
