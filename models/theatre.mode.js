@@ -4,7 +4,8 @@ import mongoose, { mongo } from "mongoose";
 const theatreSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    minLength: 3
   },
   description: String,
   city: {
