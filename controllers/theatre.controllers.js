@@ -4,7 +4,8 @@ import { successResponseBody, errorResponseBody } from "../utils/responseBody.js
 import { 
   createTheatrefn, 
   deleteTheatrefn,
-  getTheatrefn
+  getTheatrefn,
+  getAllTheatrefn
 } from "../services/theatre.service.js"
 
 
@@ -68,8 +69,22 @@ const getTheatre = async (req, res) => {
 }
 
 
+const getAllTheatre = async (req, res) => {
+  try {
+    const response = await getAllTheatrefn();
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully fetched all the theatres"
+    return res.status(200).json(successResponseBody);
+  } catch (error) {
+    errorResponseBody.error = error;
+    return res.status(500).json(errorResponseBody);
+  }
+}
+
+
 export {
   createTheatre,
   deleteTheatre,
-  getTheatre
+  getTheatre,
+  getAllTheatre
 }

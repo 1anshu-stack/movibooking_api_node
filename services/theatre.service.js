@@ -61,8 +61,20 @@ const getTheatrefn = async (id) => {
 }
 
 
+const getAllTheatrefn = async () => {
+  try {
+    const response = await Theatre.find({})
+    return response;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
+
 export {
   createTheatrefn,
   deleteTheatrefn,
-  getTheatrefn
+  getTheatrefn,
+  getAllTheatrefn
 }
