@@ -1,4 +1,4 @@
-import { createMovie, deleteMovie, getMovie, updateMovie } from "../controllers/movie.controllers.js";
+import { createMovie, deleteMovie, getMovie, updateMovie, getMovies } from "../controllers/movie.controllers.js";
 import { validateMovieCreateRequest } from "../middleware/movie.middleware.js"
 
 
@@ -27,6 +27,12 @@ const routes = (app) => {
   app.patch(
     '/mba/api/v1/movies/:id',
     updateMovie
+  )
+
+  // all the movies
+  app.get(
+    '/mba/api/v1/movies',
+    getMovies
   )
 }
 

@@ -1,22 +1,30 @@
 import Movie from '../models/movie.mode.js';
 
-
-import { createMovieFn, deleteMovieFn, getMovieById, updateMoviefn } from '../services/movie.service.js';
-import {successResponseBody, errorResponseBody} from '../utils/responseBody.js'
-
+import {
+  createMovieFn,
+  deleteMovieFn,
+  getMovieById,
+  updateMoviefn,
+  fetchMovies,
+} from '../services/movie.service.js';
+import {
+  successResponseBody,
+  errorResponseBody,
+} from '../utils/responseBody.js';
 
 const createMovie = async (req, res) => {
   try {
     const response = await createMovieFn(req.body);
     // console.log("response", response);
-    if(response.err){
+    if (response.err) {
       errorResponseBody.err = response.err;
-      errorResponseBody.message = "validation failed on few parameters of the request body"
-      return res.status(response.code).json(errorResponseBody)
+      errorResponseBody.message =
+        'validation failed on few parameters of the request body';
+      return res.status(response.code).json(errorResponseBody);
     }
 
     successResponseBody.data = response;
-    successResponseBody.message = "Successfully created the movie";
+    successResponseBody.message = 'Successfully created the movie';
     return res.status(200).json(successResponseBody);
   } catch (error) {
     console.log(error);
@@ -30,8 +38,8 @@ const deleteMovie = async (req, res) => {
       _id: req.params.id,
     });
 
-    successResponseBody.data = response
-    successResponseBody.message = "Successfully deleted the movie";
+    successResponseBody.data = response;
+    successResponseBody.message = 'Successfully deleted the movie';
     return res.status(200).json(successResponseBody);
   } catch (error) {
     console.log(error);
@@ -55,25 +63,39 @@ const getMovie = async (req, res) => {
   }
 };
 
-
 const updateMovie = async (req, res) => {
   try {
-    const response = await updateMoviefn(req.params.id, req.body)
-    if(response.err){
+    const response = await updateMoviefn(req.params.id, req.body);
+    if (response.err) {
       errorResponseBody.err = response.err;
-      errorResponseBody.message = "validation failed on few parameters of the request body"
-      return res.status(response.code).json(errorResponseBody)
+      errorResponseBody.message =
+        'validation failed on few parameters of the request body';
+      return res.status(response.code).json(errorResponseBody);
     }
 
     successResponseBody.data = response;
-    successResponseBody.message = "Successfully created the movie";
+    successResponseBody.message = 'Successfully created the movie';
     return res.status(200).json(successResponseBody);
   } catch (error) {
     errorResponseBody.error = error;
-    return res.status(500).json(errorResponseBody)
+    return res.status(500).json(errorResponseBody);
   }
-}
+};
 
+const getMovies = async (req, res) => {
+  try {
+    const response = await fetchMovies(req.query);
+    if (response.err) {
+      errorResponseBody.err = response.err;
+      return res.status(response.code).json(errorResponseBody);
+    }
+    successResponseBody.data = response;
+    return res.status(200).json(successResponseBody);
+  } catch (error) {
+    console.log(error);
+    errorResponseBody.err = error;
+    return res.status(500).json(errorResponseBody);
+  }
+};
 
-
-export { createMovie, deleteMovie, getMovie, updateMovie };
+export { createMovie, deleteMovie, getMovie, updateMovie, getMovies };
