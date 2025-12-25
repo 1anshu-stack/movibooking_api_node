@@ -23,12 +23,6 @@ MovieRoutes(app);
 TheatreRouter(app);
 
 
-app.get('/home', (req, res) => {
-  return res.json({
-    message: "hello from server"
-  })
-})
-
 
 app.listen( port || 4000, () => {
   console.log(`server run on port ${port}`)
