@@ -40,12 +40,12 @@ const deleteMovieFn = async (id) => {
         code: 404
       }
     }
-
-    return movie;
+    
+    return movie; 
   } catch (error) {
     console.log(error)
-    throw error;
-  } 
+    throw error
+  }
 }
 
 
