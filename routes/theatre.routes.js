@@ -23,6 +23,11 @@ const routes = (app) => {
     '/mba/api/v1/theatre',
     getAllTheatre
   )
+
+  app.put(
+    '/mba/api/v1/theatre/:id',
+    updateTheatre
+  )
 }
 
 export default routes;

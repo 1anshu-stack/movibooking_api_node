@@ -83,6 +83,16 @@ const getAllTheatre = async (req, res) => {
 }
 
 
+const updateTheatre = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    console.log(error);
+    errorResponseBody.error = error;
+    return res.status(500).json(errorResponseBody)
+  }
+}
+
 export {
   createTheatre,
   deleteTheatre,
