@@ -72,11 +72,7 @@ const getTheatrefn = async (id) => {
   }
 }
 
-/**
- * 
- * @param data -> data to be used to filter out theatres based on city / pincode
- * @returns -> return an object with the filtered content of theatres
- */
+
 const getAllTheatrefn = async (data) => {
   try {
     
@@ -116,10 +112,38 @@ const getAllTheatrefn = async (data) => {
  * @param data -> data object to be used to update the theatre
  * @returns -> it returns the new updated theatre object 
  */
+const updateTheatrefn = async (id, data) => {
+  try{
+    const response = await Theatre.findByIdAndUpdate(id, data, {
+      new: true, runValidators: true
+    });
+    if(!response){
+      return {
+        err: "No record of a theatre found for the given id",
+        code: 404
+      }
+    }
+
+    return response
+  }catch(error){
+    if(error.name == 'ValidationError'){
+      let err = {};
+      Object.keys(error.errors).forEach(key => (
+        err[key] = error.erros[key].message
+      ))
+      return {
+        err: err,
+        code: 422
+      }
+    }
+    throw error
+  }
+}
 
 export {
   createTheatrefn,
   deleteTheatrefn,
   getTheatrefn,
-  getAllTheatrefn
+  getAllTheatrefn,
+  updateTheatrefn
 }
