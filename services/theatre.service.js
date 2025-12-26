@@ -140,10 +140,44 @@ const updateTheatrefn = async (id, data) => {
   }
 }
 
+
+
+/**
+ * 
+ * @param theatreId -> unique id of the theatre for which we want to update movies
+ * @param moviesIds -> array of movie ids that are expected to be updated in theatre
+ * @param insert -> boolean that tells whether we want insert movies or remove them
+ * @returns -> updated theatre object
+ */
+const updateMoviesInTheatresfn = async (theatreId, moviesIds, insert) => {
+  const theatre = await Theatre.findById(theatreId);
+  if(!theatre){
+    return {
+      err: "No such theatre found for the id provided",
+      code: 404
+    }
+  }
+
+  if(insert){
+    moviesIds.forEach(movieId => theatre.movies.push(movieId));
+  }else{
+    let savedMoviesIds = theatre.movies;
+    moviesIds.forEach(movieId => 
+      savedMoviesIds = savedMoviesIds.filter(smi => smi == movieId)
+    );
+    theatre.movies = savedMoviesIds; // by doing this we are not going to update inside a database also it just updating a theatre object that is loaded into a memory first.
+  }
+
+  await theatre.save();
+  return theatre.populate('movies'); 
+}
+
+
 export {
   createTheatrefn,
   deleteTheatrefn,
   getTheatrefn,
   getAllTheatrefn,
+  updateMoviesInTheatresfn
   updateTheatrefn
 }

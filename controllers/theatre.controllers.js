@@ -6,6 +6,7 @@ import {
   deleteTheatrefn,
   getTheatrefn,
   getAllTheatrefn,
+  updateMoviesInTheatresfn
   updateTheatrefn
 } from "../services/theatre.service.js"
 
@@ -84,6 +85,19 @@ const getAllTheatre = async (req, res) => {
 }
 
 
+/**
+ * 
+ * @param  req 
+ * @param  res 
+ * @returns 
+ */
+const updateMoviesInTheatres = async (req, res) => {
+  try {
+    const response = await updateMoviesInTheatresfn(
+      req.params.id,
+      req.body.movieIds,
+      req.body.insert
+    );
 const updateTheatre = async (req, res) => {
   try {
     const response = await updateTheatrefn(req.params.id, req.body);
@@ -93,11 +107,17 @@ const updateTheatre = async (req, res) => {
     }
 
     successResponseBody.data = response;
+    successResponseBody.message = "Successfully updated movies in the theatre"
     successResponseBody.message = "Data updated successfully"
     return res.status(200).json(successResponseBody);
   } catch (error) {
     console.log(error);
     errorResponseBody.error = error;
+    return res.status(500).json(errorResponseBody);
+  }
+}
+
+
     return res.status(500).json(errorResponseBody)
   }
 }
@@ -107,5 +127,6 @@ export {
   deleteTheatre,
   getTheatre,
   getAllTheatre,
+  updateMoviesInTheatres
   updateTheatre
 }
