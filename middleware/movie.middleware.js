@@ -1,35 +1,47 @@
-import { errorResponseBody } from "../utils/responseBody.js"
+const badRequestResponse = {
+  success: false,
+  err: "",
+  data: {},
+  message: "Malformed Request | Bad Request"
+}
 
+/**
+ * 
+ * @param  req -> Http request object 
+ * @param  res -> Http response object
+ * @param  next -> next middleware function
+ * @returns -> weather the request is valid or not
+ */
 
 const validateMovieCreateRequest = async (req, res, next) => {
   if(!req.body.name){
-    errorResponseBody.error = 'The name of the movie is not present in the request'
-    return res.status(400).json(errorResponseBody);
+    badRequestResponse.err= 'The name of the movie is not present in the request'
+    return res.status(400).json(badRequestResponse);
   }
 
   if(!req.body.description){
-    errorResponseBody.error = 'The description of the movie is not present in the request'
-    return res.status(400).json(errorResponseBody);
+    badRequestResponse.err = 'The description of the movie is not present in the request'
+    return res.status(400).json(badRequestResponse);
   }
 
   if(!req.body.casts || !(req.body.casts instanceof Array) || req.body.casts.length <= 0){
-    errorResponseBody.error = 'The casts of the movie is not present in the request'
-    return res.status(400).json(errorResponseBody);
+    badRequestResponse.err = 'The casts of the movie is not present in the request'
+    return res.status(400).json(badRequestResponse);
   }
 
   if(!req.body.trailerUrl){
-    errorResponseBody.error = 'The trailerUrl of the movie is not present in the request'
-    return res.status(400).json(errorResponseBody);
+    badRequestResponse.err = 'The trailerUrl of the movie is not present in the request'
+    return res.status(400).json(badRequestResponse);
   }
 
   if(!req.body.releaseDate){
-    errorResponseBody.error = 'The releaseDate of the movie is not present in the request'
-    return res.status(400).json(errorResponseBody);
+    badRequestResponse.err = 'The releaseDate of the movie is not present in the request'
+    return res.status(400).json(badRequestResponse);
   }
 
   if(!req.body.director){
-    errorResponseBody.error = 'The director of the movie is not present in the request'
-    return res.status(400).json(errorResponseBody);
+    badRequestResponse.err = 'The director of the movie is not present in the request'
+    return res.status(400).json(badRequestResponse);
   }
 
   next();

@@ -1,6 +1,11 @@
 import Movie from '../models/movie.mode.js';
 
 
+/**
+ * 
+ * @param data -> object containing details of the new movie to be created 
+ * @returns -> return the new movie object created
+ */
 const createMovieFn = async (data) => {
   try {
     const movie = await Movie.create(data);
@@ -21,6 +26,11 @@ const createMovieFn = async (data) => {
 }
 
 
+/**
+ * 
+ * @param data -> id which will be used to indentify the movie to be deleted 
+ * @returns -> object containing details of the movie deleted
+ */
 const deleteMovieFn = async (id) => {
   try {
     const movie = await Movie.findByIdAndDelete(id)
@@ -39,6 +49,11 @@ const deleteMovieFn = async (id) => {
 }
 
 
+/**
+ * 
+ * @param id -> id which will be used to indentify the movie to be fetched
+ * @returns -> object containing details of the movie fetched
+ */
 const getMovieById = async (id) => {
   const movie = await Movie.findById(id);
   if (!movie) {
@@ -51,6 +66,12 @@ const getMovieById = async (id) => {
 };
 
 
+/**
+ * 
+ * @param id -> id which will be used to indentify the movie to be updated
+ * @param data -> object that contains actual data which is to be updated in the db 
+ * @returns -> return the new updated movie details
+ */
 const updateMoviefn = async (id, data) => {
   try {
     const movie = await Movie.findByIdAndUpdate(id, data, {new: true, runValidators: true}) ;
@@ -71,6 +92,11 @@ const updateMoviefn = async (id, data) => {
 }
 
 
+/**
+ * 
+ * @param filter -> filter will help us in filtering out data based on the conditionals it contains
+ * @returns -> returns an object containing all the movies fetched based on the filter
+ */
 const fetchMovies = async (filter) => {
   let query = {};
   if(filter.name){
