@@ -73,7 +73,7 @@ const getTheatrefn = async (id) => {
 }
 
 
-const getAllTheatrefn = async () => {
+const getAllTheatrefn = async (data) => {
   try {
     
     let query = {};
@@ -112,10 +112,38 @@ const getAllTheatrefn = async () => {
  * @param data -> data object to be used to update the theatre
  * @returns -> it returns the new updated theatre object 
  */
+const updateTheatrefn = async (id, data) => {
+  try{
+    const response = await Theatre.findByIdAndUpdate(id, data, {
+      new: true, runValidators: true
+    });
+    if(!response){
+      return {
+        err: "No record of a theatre found for the given id",
+        code: 404
+      }
+    }
+
+    return response
+  }catch(error){
+    if(error.name == 'ValidationError'){
+      let err = {};
+      Object.keys(error.errors).forEach(key => (
+        err[key] = error.erros[key].message
+      ))
+      return {
+        err: err,
+        code: 422
+      }
+    }
+    throw error
+  }
+}
 
 export {
   createTheatrefn,
   deleteTheatrefn,
   getTheatrefn,
-  getAllTheatrefn
+  getAllTheatrefn,
+  updateTheatrefn
 }

@@ -5,7 +5,8 @@ import {
   createTheatrefn, 
   deleteTheatrefn,
   getTheatrefn,
-  getAllTheatrefn
+  getAllTheatrefn,
+  updateTheatrefn
 } from "../services/theatre.service.js"
 
 
@@ -85,7 +86,15 @@ const getAllTheatre = async (req, res) => {
 
 const updateTheatre = async (req, res) => {
   try {
-    
+    const response = await updateTheatrefn(req.params.id, req.body);
+    if(response.err){
+      errorResponseBody.error = response.err;
+      return res.status(response.code).json(errorResponseBody)
+    }
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Data updated successfully"
+    return res.status(200).json(successResponseBody);
   } catch (error) {
     console.log(error);
     errorResponseBody.error = error;
@@ -97,5 +106,6 @@ export {
   createTheatre,
   deleteTheatre,
   getTheatre,
-  getAllTheatre
+  getAllTheatre,
+  updateTheatre
 }
