@@ -2,6 +2,7 @@ import express from 'express';
 import 'dotenv/config'
 
 import MovieRoutes from './routes/movie.routes.js'
+import TheatreRouter from "./routes/theatre.routes.js"
 
 
 const app = express();
@@ -19,12 +20,8 @@ app.use(express.urlencoded({extended: true}))
 
 // invoking movie routes
 MovieRoutes(app);
+TheatreRouter(app);
 
-app.get('/home', (req, res) => {
-  return res.json({
-    message: "hello from server"
-  })
-})
 
 
 app.listen( port || 4000, () => {

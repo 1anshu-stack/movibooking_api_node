@@ -90,7 +90,7 @@ const getMovies = async (req, res) => {
   try {
     const response = await fetchMovies(req.query);
     if (response.err) {
-      errorResponseBody.err = response.err;
+      errorResponseBody.error = response.err;
       return res.status(response.code).json(errorResponseBody);
     }
     successResponseBody.data = response;
