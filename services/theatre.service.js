@@ -61,9 +61,21 @@ const getTheatrefn = async (id) => {
 }
 
 
-const getAllTheatrefn = async () => {
+const getAllTheatrefn = async (data) => {
   try {
-    const response = await Theatre.find({})
+    console.log(data)
+    let query = {};
+    if(data && data.city){
+      query.city = data.city
+    }
+    if(data && data.pincode){
+      query.pincode = data.pincode
+    }
+    if(data && data.name){
+      query.name = data.name
+    }
+    console.log(query);
+    const response = await Theatre.find(query)
     return response;
   } catch (error) {
     console.log(error)
