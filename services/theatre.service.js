@@ -96,7 +96,7 @@ const getAllTheatrefn = async (data) => {
       pagination.skip = data.skip * perPage;
     }
 
-    console.log(query);
+    // console.log(query);
     const response = await Theatre.find(query, {}, pagination)
     return response;
   } catch (error) {

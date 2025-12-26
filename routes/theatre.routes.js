@@ -1,7 +1,5 @@
-import { createTheatre, deleteTheatre, getTheatre, getAllTheatre, updateMoviesInTheatres } from "../controllers/theatre.controllers.js"
+import { createTheatre, deleteTheatre, getTheatre, getAllTheatre, updateTheatre, updateMoviesInTheatres } from "../controllers/theatre.controllers.js"
 import { validateTheatreCreateRequest, validateUpdateMovies } from "../middleware/theatre.middleware.js"
-import { createTheatre, deleteTheatre, getTheatre, getAllTheatre, updateTheatre } from "../controllers/theatre.controllers.js"
-import { validateTheatreCreateRequest } from "../middleware/theatre.middleware.js"
 
 
 const routes = (app) => {

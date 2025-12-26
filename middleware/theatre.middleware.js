@@ -29,6 +29,13 @@ const validateTheatreCreateRequest = async (req, res, next) => {
 
 
 
+/**
+ * 
+ * @param  req -> Http request object 
+ * @param  res -> Http response object
+ * @param  next -> next middleware function
+ * @returns -> weather the request is valid or not
+ */
 const validateUpdateMovies = async (req, res, next) => {
   if(req.body.insert === undefined){
     errorResponseBody.message = "The insert parameter is missing in the request";

@@ -89,6 +89,7 @@ const updateMovie = async (req, res) => {
 
 const getMovies = async (req, res) => {
   try {
+    console.log(req.query)
     const response = await fetchMovies(req.query);
     if (response.err) {
       errorResponseBody.error = response.err;

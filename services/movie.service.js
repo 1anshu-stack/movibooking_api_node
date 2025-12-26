@@ -34,7 +34,7 @@ const createMovieFn = async (data) => {
 const deleteMovieFn = async (id) => {
   try {
     const movie = await Movie.findByIdAndDelete(id)
-    if(!response){
+    if(!movie){
       return {
         err: "No record of a theatre found for the given id",
         code: 404
@@ -97,10 +97,13 @@ const updateMoviefn = async (id, data) => {
  * @param filter -> filter will help us in filtering out data based on the conditionals it contains
  * @returns -> returns an object containing all the movies fetched based on the filter
  */
-const fetchMovies = async (filter) => {
+const fetchMovies = async (data) => {
   let query = {};
-  if(filter.name){
-    query.name = filter.name;
+  if(data.name){
+    query.name = {
+      $regex: `^${data.name}`, // starts with
+      $options: "i"            // case-insensitive
+    };
   }
 
   let movies = await Movie.find(query);
