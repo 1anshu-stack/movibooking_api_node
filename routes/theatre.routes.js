@@ -1,5 +1,7 @@
 import { createTheatre, deleteTheatre, getTheatre, getAllTheatre, updateMoviesInTheatres } from "../controllers/theatre.controllers.js"
 import { validateTheatreCreateRequest, validateUpdateMovies } from "../middleware/theatre.middleware.js"
+import { createTheatre, deleteTheatre, getTheatre, getAllTheatre, updateTheatre } from "../controllers/theatre.controllers.js"
+import { validateTheatreCreateRequest } from "../middleware/theatre.middleware.js"
 
 
 const routes = (app) => {
@@ -29,6 +31,14 @@ const routes = (app) => {
     '/mba/api/v1/theatre/:id/movies',
     validateUpdateMovies, 
     updateMoviesInTheatres
+  app.put(
+    '/mba/api/v1/theatre/:id',
+    updateTheatre
+  )
+
+  app.patch(
+    '/mba/api/v1/theatre/:id',
+    updateTheatre
   )
 }
 

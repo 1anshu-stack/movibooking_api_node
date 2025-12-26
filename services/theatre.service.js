@@ -72,14 +72,32 @@ const getTheatrefn = async (id) => {
   }
 }
 
-/**
- * 
- * @param data -> data to be used to filter out theatres based on city / pincode
- * @returns -> return an object with the filtered content of theatres
- */
-const getAllTheatrefn = async () => {
+
+const getAllTheatrefn = async (data) => {
   try {
-    const response = await Theatre.find({})
+    
+    let query = {};
+    let pagination = {};
+    if(data && data.city){
+      query.city = data.city
+    }
+    if(data && data.pincode){
+      query.pincode = data.pincode
+    }
+    if(data && data.name){
+      query.name = data.name
+    }
+    if(data && data.limit){
+      pagination.limit = data.limit
+    }
+    if(data && data.skip){
+      // for first page we send skip as 0 
+      let perPage = (data.limi) ? data.limit : 3
+      pagination.skip = data.skip * perPage;
+    }
+
+    console.log(query);
+    const response = await Theatre.find(query, {}, pagination)
     return response;
   } catch (error) {
     console.log(error)
@@ -94,6 +112,33 @@ const getAllTheatrefn = async () => {
  * @param data -> data object to be used to update the theatre
  * @returns -> it returns the new updated theatre object 
  */
+const updateTheatrefn = async (id, data) => {
+  try{
+    const response = await Theatre.findByIdAndUpdate(id, data, {
+      new: true, runValidators: true
+    });
+    if(!response){
+      return {
+        err: "No record of a theatre found for the given id",
+        code: 404
+      }
+    }
+
+    return response
+  }catch(error){
+    if(error.name == 'ValidationError'){
+      let err = {};
+      Object.keys(error.errors).forEach(key => (
+        err[key] = error.erros[key].message
+      ))
+      return {
+        err: err,
+        code: 422
+      }
+    }
+    throw error
+  }
+}
 
 
 
@@ -134,4 +179,5 @@ export {
   getTheatrefn,
   getAllTheatrefn,
   updateMoviesInTheatresfn
+  updateTheatrefn
 }
