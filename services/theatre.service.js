@@ -142,6 +142,9 @@ const updateTheatrefn = async (id, data) => {
 
 
 
+
+// MOVIE AND THEATRE COMBINE SERVICE FUNCTION
+
 /**
  * 
  * @param theatreId -> unique id of the theatre for which we want to update movies
@@ -178,6 +181,6 @@ export {
   deleteTheatrefn,
   getTheatrefn,
   getAllTheatrefn,
+  updateTheatrefn,
   updateMoviesInTheatresfn
-  updateTheatrefn
 }

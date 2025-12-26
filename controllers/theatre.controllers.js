@@ -6,8 +6,8 @@ import {
   deleteTheatrefn,
   getTheatrefn,
   getAllTheatrefn,
+  updateTheatrefn,
   updateMoviesInTheatresfn
-  updateTheatrefn
 } from "../services/theatre.service.js"
 
 
@@ -85,19 +85,6 @@ const getAllTheatre = async (req, res) => {
 }
 
 
-/**
- * 
- * @param  req 
- * @param  res 
- * @returns 
- */
-const updateMoviesInTheatres = async (req, res) => {
-  try {
-    const response = await updateMoviesInTheatresfn(
-      req.params.id,
-      req.body.movieIds,
-      req.body.insert
-    );
 const updateTheatre = async (req, res) => {
   try {
     const response = await updateTheatrefn(req.params.id, req.body);
@@ -118,6 +105,33 @@ const updateTheatre = async (req, res) => {
 }
 
 
+
+// MOVIE AND THEATRE COMBINE CONTROLLERS
+
+/**
+ * 
+ * @param  req 
+ * @param  res 
+ * @returns 
+ */
+const updateMoviesInTheatres = async (req, res) => {
+  try {
+    const response = await updateMoviesInTheatresfn(
+      req.params.id,
+      req.body.movieIds,
+      req.body.insert
+    )
+    if(response.err){
+      errorResponseBody.error = err
+      return res.status(response.code).json(errorResponseBody);
+    }
+    
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully added movies in a particular theatre"
+    return res.status(200).json(successResponseBody)
+  }catch(error){
+    console.log(error)
+    errorResponseBody.error = error;
     return res.status(500).json(errorResponseBody)
   }
 }
@@ -127,6 +141,6 @@ export {
   deleteTheatre,
   getTheatre,
   getAllTheatre,
+  updateTheatre,
   updateMoviesInTheatres
-  updateTheatre
 }

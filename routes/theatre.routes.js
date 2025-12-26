@@ -27,10 +27,6 @@ const routes = (app) => {
     getAllTheatre
   )
 
-  app.patch(
-    '/mba/api/v1/theatre/:id/movies',
-    validateUpdateMovies, 
-    updateMoviesInTheatres
   app.put(
     '/mba/api/v1/theatre/:id',
     updateTheatre
@@ -39,6 +35,14 @@ const routes = (app) => {
   app.patch(
     '/mba/api/v1/theatre/:id',
     updateTheatre
+  )
+
+
+  // movie and theatre combine routes
+  app.patch(
+    '/mba/api/v1/theatre/:id/movies',
+    validateUpdateMovies, 
+    updateMoviesInTheatres
   )
 }
 
