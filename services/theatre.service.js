@@ -1,5 +1,12 @@
 import Theatre from "../models/theatre.mode.js"
 
+
+
+/**
+ * 
+ * @param data -> object containing details of the new Theatre to be created 
+ * @returns -> return the new Theatre object created
+ */
 const createTheatrefn = async (data) => {
   try {
     const response = await Theatre.create(data)
@@ -20,6 +27,11 @@ const createTheatrefn = async (data) => {
 }
 
 
+/**
+ * 
+ * @param id -> id which will be used to indentify the movie to be deleted 
+ * @returns -> object containing details of the movie deleted
+ */
 const deleteTheatrefn = async (id) => {
   try {
     const response = await Theatre.findByIdAndDelete(id);
@@ -61,7 +73,7 @@ const getTheatrefn = async (id) => {
 }
 
 
-const getAllTheatrefn = async (data) => {
+const getAllTheatrefn = async () => {
   try {
     
     let query = {};
@@ -93,6 +105,13 @@ const getAllTheatrefn = async (data) => {
   }
 }
 
+
+/**
+ * 
+ * @param id -> the unique id to identify the theatre to be updated 
+ * @param data -> data object to be used to update the theatre
+ * @returns -> it returns the new updated theatre object 
+ */
 
 export {
   createTheatrefn,

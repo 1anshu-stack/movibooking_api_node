@@ -3,6 +3,7 @@ import { validateTheatreCreateRequest } from "../middleware/theatre.middleware.j
 
 
 const routes = (app) => {
+  // routes->function->takes->express->app->object->as->parameter
   app.post(
     '/mba/api/v1/theatre',
     validateTheatreCreateRequest,
