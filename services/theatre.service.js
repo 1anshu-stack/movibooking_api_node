@@ -87,6 +87,10 @@ const getAllTheatrefn = async (data) => {
     if(data && data.name){
       query.name = data.name
     }
+    // Movie and theatre combine
+    if(data && data.movieId){
+      query.movies = {$all: data.movieId}
+    }
     if(data && data.limit){
       pagination.limit = data.limit
     }
@@ -154,27 +158,29 @@ const updateTheatrefn = async (id, data) => {
  */
 const updateMoviesInTheatresfn = async (theatreId, moviesIds, insert) => {
   try {
+    let theatre;
     if(insert){
       // we need to add movies
-      await Theatre.updateOne(
+      theatre = await Theatre.findByIdAndUpdate(
         {_id: theatreId},
-        {$addToSet: { movies: {$each: moviesIds} }}
+        {$addToSet: { movies: {$each: moviesIds} }},
+        {new: true}
       );
     }else{
       // we need to remove movies
-      await Theatre.updateOne(
+      theatre = await Theatre.findByIdAndUpdate(
         {_id: theatreId},
-        {$pull: {movies: {$in: moviesIds}}}
+        {$pull: {movies: {$in: moviesIds}}},
+        {new: true}
       )
     }
-  
-    const theatre = await Theatre.findById(theatreId)
+    // const theatre = await Theatre.findById(theatreId)
     return theatre.populate('movies'); 
   } catch (error) {
     if(error.name == "TypeError"){
       return {
         err: "No theatre of id found",
-        code: 422
+        code: 404
       }
     }
     console.log(error)
