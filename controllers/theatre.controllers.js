@@ -122,7 +122,7 @@ const updateMoviesInTheatres = async (req, res) => {
       req.body.insert
     )
     if(response.err){
-      errorResponseBody.error = err
+      errorResponseBody.error = response.err
       return res.status(response.code).json(errorResponseBody);
     }
     

@@ -153,26 +153,33 @@ const updateTheatrefn = async (id, data) => {
  * @returns -> updated theatre object
  */
 const updateMoviesInTheatresfn = async (theatreId, moviesIds, insert) => {
-  const theatre = await Theatre.findById(theatreId);
-  if(!theatre){
-    return {
-      err: "No such theatre found for the id provided",
-      code: 404
+  try {
+    if(insert){
+      // we need to add movies
+      await Theatre.updateOne(
+        {_id: theatreId},
+        {$addToSet: { movies: {$each: moviesIds} }}
+      );
+    }else{
+      // we need to remove movies
+      await Theatre.updateOne(
+        {_id: theatreId},
+        {$pull: {movies: {$in: moviesIds}}}
+      )
     }
+  
+    const theatre = await Theatre.findById(theatreId)
+    return theatre.populate('movies'); 
+  } catch (error) {
+    if(error.name == "TypeError"){
+      return {
+        err: "No theatre of id found",
+        code: 422
+      }
+    }
+    console.log(error)
+    throw error
   }
-
-  if(insert){
-    moviesIds.forEach(movieId => theatre.movies.push(movieId));
-  }else{
-    let savedMoviesIds = theatre.movies;
-    moviesIds.forEach(movieId => 
-      savedMoviesIds = savedMoviesIds.filter(smi => smi == movieId)
-    );
-    theatre.movies = savedMoviesIds; // by doing this we are not going to update inside a database also it just updating a theatre object that is loaded into a memory first.
-  }
-
-  await theatre.save();
-  return theatre.populate('movies'); 
 }
 
 
