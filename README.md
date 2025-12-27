@@ -15,3 +15,5 @@ Second api: /mba/api/v1/theatre?movieId=<> why theatre bcz we want to filter out
 → We will write a new API to get the list of all theatres in which a given movie is running.
 → As a response, we want to return the list of theatres which are running the movie.
 
+Third api: /mba/api/v1/theatres/:id/movies
+→ This api will try to fetch all the movies running in the theatre with the given id.

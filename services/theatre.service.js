@@ -1,4 +1,5 @@
 import Theatre from "../models/theatre.mode.js"
+import Movie from "../models/movie.mode.js";
 
 
 
@@ -189,11 +190,22 @@ const updateMoviesInTheatresfn = async (theatreId, moviesIds, insert) => {
 }
 
 
+const getMoviesInATheatresfn = async (id) => {
+  try {
+    const response = await Theatre.findById(id, {name: 1, movies: 1}).populate("movies")
+    return response
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export {
   createTheatrefn,
   deleteTheatrefn,
   getTheatrefn,
   getAllTheatrefn,
   updateTheatrefn,
-  updateMoviesInTheatresfn
+  updateMoviesInTheatresfn,
+  getMoviesInATheatresfn
 }
