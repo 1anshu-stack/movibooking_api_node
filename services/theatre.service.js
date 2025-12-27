@@ -200,6 +200,25 @@ const getMoviesInATheatresfn = async (id) => {
   }
 }
 
+const checkMovieInTheatrefn = async (theatreId, movieId) => {
+  try {
+    const response = await Theatre.findById(theatreId);
+    if(!response){
+      return {
+        err: "No theatre of this id is present.",
+        code: 404
+      }
+    }
+
+    // console.log(response.movies.includes(new mongoose.Types.ObjectId(movieId)))
+    // console.log(response.movies.indexOf(movieId) != -1)
+    return response.movies.some(id => id.equals(movieId));
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export {
   createTheatrefn,
   deleteTheatrefn,
@@ -207,5 +226,6 @@ export {
   getAllTheatrefn,
   updateTheatrefn,
   updateMoviesInTheatresfn,
-  getMoviesInATheatresfn
+  getMoviesInATheatresfn,
+  checkMovieInTheatrefn
 }

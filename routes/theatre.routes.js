@@ -5,7 +5,8 @@ import {
   getAllTheatre, 
   updateTheatre, 
   updateMoviesInTheatres, 
-  getMoviesInATheatres 
+  getMoviesInATheatres ,
+  checkMovie
 } from "../controllers/theatre.controllers.js"
 
 import { 
@@ -58,6 +59,11 @@ const routes = (app) => {
   app.get(
     '/mba/api/v1/theatre/:id/movies',
     getMoviesInATheatres
+  )
+
+  app.get(
+    '/mba/api/v1/theatre/:theatreId/movies/:movieId',
+    checkMovie
   )
 }
 

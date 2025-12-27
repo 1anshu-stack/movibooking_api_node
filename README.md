@@ -17,3 +17,6 @@ Second api: /mba/api/v1/theatre?movieId=<> why theatre bcz we want to filter out
 
 Third api: /mba/api/v1/theatres/:id/movies
 → This api will try to fetch all the movies running in the theatre with the given id.
+
+Forth api: /mba/api/v1/theatres/:theatreId/movies/:movieId
+→ A particular movie is present in a particular theatre or not.

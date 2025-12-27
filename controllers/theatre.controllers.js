@@ -8,7 +8,8 @@ import {
   getAllTheatrefn,
   updateTheatrefn,
   updateMoviesInTheatresfn,
-  getMoviesInATheatresfn
+  getMoviesInATheatresfn,
+  checkMovieInTheatrefn
 } from "../services/theatre.service.js"
 
 
@@ -150,6 +151,24 @@ const getMoviesInATheatres = async (req, res) => {
   }
 }
 
+
+const checkMovie = async (req, res) => {
+  try {
+    const response = await checkMovieInTheatrefn(req.params.theatreId, req.params.movieId);
+    if(response.err){
+      errorResponseBody.error = response.err;
+      return res.status(response.code).json(errorResponseBody)
+    }
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Movie is present in this theatre";
+    return res.status(200).json(successResponseBody)
+  } catch (error) {
+    errorResponseBody.error = error
+    return res.status(500).json(errorResponseBody)
+  }
+}
+
 export {
   createTheatre,
   deleteTheatre,
@@ -157,5 +176,6 @@ export {
   getAllTheatre,
   updateTheatre,
   updateMoviesInTheatres,
-  getMoviesInATheatres
+  getMoviesInATheatres,
+  checkMovie
 }
