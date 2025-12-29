@@ -3,6 +3,7 @@ import 'dotenv/config'
 
 import MovieRoutes from './routes/movie.routes.js'
 import TheatreRouter from "./routes/theatre.routes.js"
+import AuthRouter from "./routes/user.routes.js"
 
 
 const app = express();
@@ -25,7 +26,7 @@ mongoose.set('debug', true);
 // invoking movie routes
 MovieRoutes(app);
 TheatreRouter(app);
-
+AuthRouter(app);
 
 
 app.listen( port || 4000, () => {

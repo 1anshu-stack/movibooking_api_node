@@ -23,4 +23,7 @@ Forth api: /mba/api/v1/theatres/:theatreId/movies/:movieId
 
 
 
-Branch: Feature 4 Associate Movie Theatre
+Branch: Feature 4 Auth
+
+First api: /mba/api/v1/auth/signup
+→ We need to create an api to register a new user on our project.
