@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { USER_ROLE, USER_STATUS } from '../utils/constans';
+import { USER_ROLE, USER_STATUS } from '../utils/constans.js';
 
 
 const userSchema = new mongoose.Schema({
@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return;
   console.log(this);
   const hash = await bcrypt.hash(this.password, 10);
   console.log(hash);
@@ -57,9 +58,9 @@ userSchema.pre('save', async function () {
  * @param plainPassword -> Input password given by the user in sign in request 
  * @returns -> boolena denoting whether passwords same or not.
  */
-userSchema.methods.isValidPassword = async (plainPassword) => {
-
-}
+userSchema.methods.isValidPassword = async function (plainPassword) {
+  return await bcrypt.compare(plainPassword, this.password);
+};
 
 const User = mongoose.model('User', userSchema)
 export default User;
