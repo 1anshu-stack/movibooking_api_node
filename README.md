@@ -20,3 +20,7 @@ Third api: /mba/api/v1/theatres/:id/movies
 
 Forth api: /mba/api/v1/theatres/:theatreId/movies/:movieId
 → A particular movie is present in a particular theatre or not.
+
+
+
+Branch: Feature 4 Associate Movie Theatre
