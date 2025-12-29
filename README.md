@@ -28,3 +28,5 @@ Branch: Feature 4 Auth
 First api: /mba/api/v1/auth/signup
 → We need to create an api to register a new user on our project.
 → We can setup a hook/trigger on userSchema such that before the save any user document a hook should execure just before the save.
+
+second api: /mba/api/v1/auth/login
