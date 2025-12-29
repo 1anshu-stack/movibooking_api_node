@@ -1,5 +1,18 @@
-import { createTheatre, deleteTheatre, getTheatre, getAllTheatre, updateTheatre, updateMoviesInTheatres } from "../controllers/theatre.controllers.js"
-import { validateTheatreCreateRequest, validateUpdateMovies } from "../middleware/theatre.middleware.js"
+import { 
+  createTheatre, 
+  deleteTheatre, 
+  getTheatre, 
+  getAllTheatre, 
+  updateTheatre, 
+  updateMoviesInTheatres, 
+  getMoviesInATheatres ,
+  checkMovie
+} from "../controllers/theatre.controllers.js"
+
+import { 
+  validateTheatreCreateRequest, 
+  validateUpdateMovies 
+} from "../middleware/theatre.middleware.js"
 
 
 const routes = (app) => {
@@ -41,6 +54,16 @@ const routes = (app) => {
     '/mba/api/v1/theatre/:id/movies',
     validateUpdateMovies, 
     updateMoviesInTheatres
+  )
+
+  app.get(
+    '/mba/api/v1/theatre/:id/movies',
+    getMoviesInATheatres
+  )
+
+  app.get(
+    '/mba/api/v1/theatre/:theatreId/movies/:movieId',
+    checkMovie
   )
 }
 

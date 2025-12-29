@@ -10,6 +10,7 @@ const port = process.env.PORT
 
 // db connection
 import connectDB from './config/db.js';
+import mongoose from 'mongoose';
 await connectDB();
 
 
@@ -17,6 +18,9 @@ await connectDB();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+
+// mongoose debug
+mongoose.set('debug', true);
 
 // invoking movie routes
 MovieRoutes(app);

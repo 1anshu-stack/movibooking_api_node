@@ -7,7 +7,9 @@ import {
   getTheatrefn,
   getAllTheatrefn,
   updateTheatrefn,
-  updateMoviesInTheatresfn
+  updateMoviesInTheatresfn,
+  getMoviesInATheatresfn,
+  checkMovieInTheatrefn
 } from "../services/theatre.service.js"
 
 
@@ -122,7 +124,7 @@ const updateMoviesInTheatres = async (req, res) => {
       req.body.insert
     )
     if(response.err){
-      errorResponseBody.error = err
+      errorResponseBody.error = response.err
       return res.status(response.code).json(errorResponseBody);
     }
     
@@ -136,11 +138,44 @@ const updateMoviesInTheatres = async (req, res) => {
   }
 }
 
+
+const getMoviesInATheatres = async (req, res) => {
+  try{
+    const response = await getMoviesInATheatresfn(req.params.id);
+    successResponseBody.data = response;
+    successResponseBody.message = "Get the movies list in theatre Successfully"
+    return res.status(200).json(successResponseBody)
+  }catch(error){
+    errorResponseBody.error = error
+    return res.status(500).json(errorResponseBody)
+  }
+}
+
+
+const checkMovie = async (req, res) => {
+  try {
+    const response = await checkMovieInTheatrefn(req.params.theatreId, req.params.movieId);
+    if(response.err){
+      errorResponseBody.error = response.err;
+      return res.status(response.code).json(errorResponseBody)
+    }
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Movie is present in this theatre";
+    return res.status(200).json(successResponseBody)
+  } catch (error) {
+    errorResponseBody.error = error
+    return res.status(500).json(errorResponseBody)
+  }
+}
+
 export {
   createTheatre,
   deleteTheatre,
   getTheatre,
   getAllTheatre,
   updateTheatre,
-  updateMoviesInTheatres
+  updateMoviesInTheatres,
+  getMoviesInATheatres,
+  checkMovie
 }

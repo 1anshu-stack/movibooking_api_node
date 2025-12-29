@@ -1,4 +1,5 @@
 import Theatre from "../models/theatre.mode.js"
+import Movie from "../models/movie.mode.js";
 
 
 
@@ -87,6 +88,10 @@ const getAllTheatrefn = async (data) => {
     if(data && data.name){
       query.name = data.name
     }
+    // Movie and theatre combine
+    if(data && data.movieId){
+      query.movies = {$all: data.movieId}
+    }
     if(data && data.limit){
       pagination.limit = data.limit
     }
@@ -153,28 +158,66 @@ const updateTheatrefn = async (id, data) => {
  * @returns -> updated theatre object
  */
 const updateMoviesInTheatresfn = async (theatreId, moviesIds, insert) => {
-  const theatre = await Theatre.findById(theatreId);
-  if(!theatre){
-    return {
-      err: "No such theatre found for the id provided",
-      code: 404
+  try {
+    let theatre;
+    if(insert){
+      // we need to add movies
+      theatre = await Theatre.findByIdAndUpdate(
+        {_id: theatreId},
+        {$addToSet: { movies: {$each: moviesIds} }},
+        {new: true}
+      );
+    }else{
+      // we need to remove movies
+      theatre = await Theatre.findByIdAndUpdate(
+        {_id: theatreId},
+        {$pull: {movies: {$in: moviesIds}}},
+        {new: true}
+      )
     }
+    // const theatre = await Theatre.findById(theatreId)
+    return theatre.populate('movies'); 
+  } catch (error) {
+    if(error.name == "TypeError"){
+      return {
+        err: "No theatre of id found",
+        code: 404
+      }
+    }
+    console.log(error)
+    throw error
   }
-
-  if(insert){
-    moviesIds.forEach(movieId => theatre.movies.push(movieId));
-  }else{
-    let savedMoviesIds = theatre.movies;
-    moviesIds.forEach(movieId => 
-      savedMoviesIds = savedMoviesIds.filter(smi => smi == movieId)
-    );
-    theatre.movies = savedMoviesIds; // by doing this we are not going to update inside a database also it just updating a theatre object that is loaded into a memory first.
-  }
-
-  await theatre.save();
-  return theatre.populate('movies'); 
 }
 
+
+const getMoviesInATheatresfn = async (id) => {
+  try {
+    const response = await Theatre.findById(id, {name: 1, movies: 1}).populate("movies")
+    return response
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+const checkMovieInTheatrefn = async (theatreId, movieId) => {
+  try {
+    const response = await Theatre.findById(theatreId);
+    if(!response){
+      return {
+        err: "No theatre of this id is present.",
+        code: 404
+      }
+    }
+
+    // console.log(response.movies.includes(new mongoose.Types.ObjectId(movieId)))
+    // console.log(response.movies.indexOf(movieId) != -1)
+    return response.movies.some(id => id.equals(movieId));
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export {
   createTheatrefn,
@@ -182,5 +225,7 @@ export {
   getTheatrefn,
   getAllTheatrefn,
   updateTheatrefn,
-  updateMoviesInTheatresfn
+  updateMoviesInTheatresfn,
+  getMoviesInATheatresfn,
+  checkMovieInTheatrefn
 }
