@@ -1,5 +1,5 @@
 import { signup, signin } from "../controllers/user.controllers.js";
-import validateSignupRequest from "../middleware/user.middleware.js";
+import {validateSignupRequest, validateSigninRequest} from "../middleware/user.middleware.js";
 
 const routes = (app) => {
   app.post(
@@ -10,6 +10,7 @@ const routes = (app) => {
 
   app.post(
     '/mba/api/v1/auth/singin',
+    validateSigninRequest,
     signin
   )
 }

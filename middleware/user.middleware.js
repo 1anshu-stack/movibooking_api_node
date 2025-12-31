@@ -5,6 +5,14 @@ const badRequestResponse = {
   message: "Malformed Request | Bad Request"
 }
 
+
+/**
+ * validator for signup request
+ * @param req -> http request object
+ * @param res -> http response object
+ * @param next -> next middleware
+ * @returns 
+ */
 const validateSignupRequest = async (req, res, next) => {
   // validate name of the user
   if(!req.body.name){
@@ -28,4 +36,28 @@ const validateSignupRequest = async (req, res, next) => {
 }
 
 
-export default validateSignupRequest;
+/**
+ * validator for signin request
+ * @param req -> http request object
+ * @param res -> http response object
+ * @param next -> next middleware
+ * @returns 
+ */
+const validateSigninRequest = async (req, res, next) => {
+  // validate email of the user
+  if(!req.body.email){
+    badRequestResponse.err.push("No email provide for signin")
+  }
+
+  // validate password of the user
+  if(!req.body.password){
+    badRequestResponse.err.push("No password provide for singin")
+  }
+
+  if(badRequestResponse.err.length > 0){
+    return res.status(422).json(badRequestResponse);
+  }
+  next();
+}
+
+export {validateSignupRequest, validateSigninRequest}
