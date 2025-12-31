@@ -43,14 +43,16 @@ JWT:
 }
 
 
-Third api: /mba/api/v1/auth/logout
 Logout:
 → If we have implemented authentication using JWT, then there can be 2 ways to log out the user.
 → Either the token expires
 → Because JWT is a stateless mechanism, so it can be done on the frontend by deleting the saved token.
 
 
-Forth api: /mba/api/v1/auth/reset
+Third api: /mba/api/v1/auth/reset
 Resetpassword:
 → We need to build an API to allow users to reset the password. For resetting the password, they need to provide the previous password & the new password. If the previous password gets a match, then we allow the user to reset; otherwise not.
 
+
+Forth api: /mba/api/v1/auth/user/:id
+To update: userRole and userStatus

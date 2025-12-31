@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 
-import { createUserfn, getUserByEmail, getUserById } from "../services/user.service.js";
+import { createUserfn, getUserByEmail, getUserById, updateUserRoleOrstatus } from "../services/user.service.js";
 import {successResponseBody, errorResponseBody} from "../utils/responseBody.js"
 
 
@@ -92,8 +92,28 @@ const resetpassword = async (req, res) => {
 }
 
 
+const update = async (req, res) => {
+  try {
+    // console.log("req", req.body, req.params.id)
+    const response = await updateUserRoleOrstatus(req.body, req.params.id)
+
+    successResponseBody.data = response;
+    successResponseBody.message = 'Successfully updated the user';
+    return res.status(200).json(successResponseBody);
+  } catch (error) {
+    if(error.err){
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+    return res.status(500).json(errorResponseBody);
+  }
+}
+
+
 export {
   signup,
   signin,
-  resetpassword
+  resetpassword,
+  update
 }

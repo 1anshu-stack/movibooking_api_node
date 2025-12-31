@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
       message: "Invalid status for user given"
     },
     default: USER_STATUS.approved
-  }
+  },
 }, {timestamps: true})
 
 
