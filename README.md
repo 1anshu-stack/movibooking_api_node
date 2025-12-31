@@ -34,5 +34,25 @@ second api: /mba/api/v1/auth/signin
 → then we will compare password
 → and if passwords are same then we return a token.
 
+JWT:
+→ We use ValidationMiddleware to validate the client site error.
+→ In case of JWT tokens, we can send the token in the request header. Whenever we are trying to access an API which is protected by an authentication layer, we can send this JWT token which we received during sign in in the request headers.
+→ On recovery of this request, we can verify the token. If the token is verified we grant the access otherwise we don’t.
+→ header {
+    “x-access-token”: <token>
+}
 
 
+Logout:
+→ If we have implemented authentication using JWT, then there can be 2 ways to log out the user.
+→ Either the token expires
+→ Because JWT is a stateless mechanism, so it can be done on the frontend by deleting the saved token.
+
+
+Third api: /mba/api/v1/auth/reset
+Resetpassword:
+→ We need to build an API to allow users to reset the password. For resetting the password, they need to provide the previous password & the new password. If the previous password gets a match, then we allow the user to reset; otherwise not.
+
+
+Forth api: /mba/api/v1/auth/user/:id
+To update: userRole and userStatus

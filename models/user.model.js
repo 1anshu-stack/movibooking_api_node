@@ -39,17 +39,17 @@ const userSchema = new mongoose.Schema({
       message: "Invalid status for user given"
     },
     default: USER_STATUS.approved
-  }
+  },
 }, {timestamps: true})
 
 
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) return;
-  console.log(this);
+  // console.log(this);
   const hash = await bcrypt.hash(this.password, 10);
-  console.log(hash);
+  // console.log(hash);
   this.password = hash;
-  console.log(this);
+  // console.log(this);
 })
 
 
@@ -61,6 +61,7 @@ userSchema.pre('save', async function () {
 userSchema.methods.isValidPassword = async function (plainPassword) {
   return await bcrypt.compare(plainPassword, this.password);
 };
+
 
 const User = mongoose.model('User', userSchema)
 export default User;
