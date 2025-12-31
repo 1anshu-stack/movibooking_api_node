@@ -29,12 +29,12 @@ const signin = async (req, res) => {
     // console.log("user", user);
 
     const isValidPassword = await user.isValidPassword(password);
-    console.log("isValidPassword", isValidPassword);
+    // console.log("isValidPassword", isValidPassword);
 
     if(!isValidPassword){
       throw {err: "Invalid password for the given email", code: 401}
     }
-    console.log(user.id)
+    // console.log(user.id)
 
     const token = jwt.sign(
       {id: user.id, email: user.email}, 

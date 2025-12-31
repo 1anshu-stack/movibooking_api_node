@@ -9,10 +9,14 @@ import {
   checkMovie
 } from "../controllers/theatre.controllers.js"
 
+
+
+
 import { 
   validateTheatreCreateRequest, 
-  validateUpdateMovies 
+  validateUpdateMovies,
 } from "../middleware/theatre.middleware.js"
+import {isAuthenticated} from "../middleware/user.middleware.js"
 
 
 const routes = (app) => {
@@ -25,6 +29,7 @@ const routes = (app) => {
 
   app.delete(
     '/mba/api/v1/theatre/:id',
+    isAuthenticated,
     deleteTheatre
   )
 
