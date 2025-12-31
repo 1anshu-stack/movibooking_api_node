@@ -1,5 +1,5 @@
-import Theatre from "../models/theatre.mode.js"
-import Movie from "../models/movie.mode.js";
+import Theatre from "../models/theatre.model.js"
+
 
 
 

@@ -20,3 +20,19 @@ Third api: /mba/api/v1/theatres/:id/movies
 
 Forth api: /mba/api/v1/theatres/:theatreId/movies/:movieId
 → A particular movie is present in a particular theatre or not.
+
+
+
+Branch: Feature 4 Auth
+
+First api: /mba/api/v1/auth/signup
+→ We need to create an api to register a new user on our project.
+→ We can setup a hook/trigger on userSchema such that before the save any user document a hook should execure just before the save.
+
+second api: /mba/api/v1/auth/signin
+→ using the email, we will fetch the user object.
+→ then we will compare password
+→ and if passwords are same then we return a token.
+
+
+
