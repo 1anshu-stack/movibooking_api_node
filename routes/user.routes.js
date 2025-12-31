@@ -1,5 +1,5 @@
-import { signup, signin } from "../controllers/user.controllers.js";
-import {validateSignupRequest, validateSigninRequest} from "../middleware/user.middleware.js";
+import { signup, signin, resetpassword } from "../controllers/user.controllers.js";
+import {validateSignupRequest, validateSigninRequest, isAuthenticated} from "../middleware/user.middleware.js";
 
 const routes = (app) => {
   app.post(
@@ -12,6 +12,12 @@ const routes = (app) => {
     '/mba/api/v1/auth/singin',
     validateSigninRequest,
     signin
+  )
+
+  app.patch(
+    '/mba/api/v1/auth/resetpassword',
+    isAuthenticated,
+    resetpassword
   )
 }
 

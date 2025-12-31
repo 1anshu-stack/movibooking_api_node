@@ -69,6 +69,7 @@ const validateSigninRequest = async (req, res, next) => {
 const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.headers["x-access-token"];
+    console.log("token", token)
     if(!token){
       badRequestResponse.err = "No token provided";
       return res.status(403).json(badRequestResponse);
