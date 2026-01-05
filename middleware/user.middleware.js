@@ -98,8 +98,40 @@ const isAuthenticated = async (req, res, next) => {
 }
 
 
+const validateResetPasswordRequest = async (req, res, next) => {
+  // validate Old password presence
+  if(!req.body.oldPassword){
+    badRequestResponse.err.push('Missing the old password in the request');
+  }
+
+  // validate new password presence
+  if(!req.body.newPassword){
+    badRequestResponse.err.push('Missing the new password in the request');
+  }
+
+  if(badRequestResponse.err.length > 0)
+    return res.status(400).json(badRequestResponse);
+
+  //we can proceed
+  next();
+}
+
+
+const validateUpdateUserRequest = (req, res, next) => {
+  // validate presence of atleast one of the two i.e userRole or userStatus
+  if(!(req.body.userRole || req.body.userStatus)){
+    badRequestResponse.err.push('Malformed request, please send alteast on parameter')
+    return res.status(400).json(badRequestResponse);
+  }
+
+  next();
+}
+
+
 export {
   validateSignupRequest, 
   validateSigninRequest, 
-  isAuthenticated
+  isAuthenticated,
+  validateResetPasswordRequest,
+  validateUpdateUserRequest
 }
