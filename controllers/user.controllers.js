@@ -42,7 +42,7 @@ const signin = async (req, res) => {
       {expiresIn: '1h'}
     )
 
-    console.log(jwt.verify(token, process.env.AUTH_KEY))
+    // console.log(jwt.verify(token, process.env.AUTH_KEY))
 
     successResponseBody.message = "Successfully logged in";
     successResponseBody.data = {
@@ -66,7 +66,7 @@ const signin = async (req, res) => {
 
 const resetpassword = async (req, res) => {
   try {
-    console.log(req.body.id, req.body.oldPassword)
+    // console.log(req.body.id, req.body.oldPassword)
     const user = await getUserById(req.user)
     const oldPassword = await user.isValidPassword(req.body.oldPassword);
     if(!oldPassword){

@@ -11,7 +11,8 @@ import {
   validateSigninRequest, 
   isAuthenticated, 
   validateResetPasswordRequest,
-  validateUpdateUserRequest
+  validateUpdateUserRequest,
+  isAdmin
 } from "../middleware/user.middleware.js";
 
 
@@ -37,7 +38,9 @@ const routes = (app) => {
 
   app.patch(
     '/mba/api/v1/auth/user/:id',
+    isAuthenticated,
     validateUpdateUserRequest,
+    isAdmin,
     update
   )
 }
