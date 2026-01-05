@@ -56,3 +56,13 @@ Resetpassword:
 
 Forth api: /mba/api/v1/auth/user/:id
 To update: userRole and userStatus
+
+
+Branch: Feature 5 integrate auth to apis
+
+We need to add authentication and authorization for the theatre resource.
+→ Add authentication in the theatre API
+→ Add authorization in the theatre API
+→ Admins or clients can create / delete / update any theatre.
+
+
