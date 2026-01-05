@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 
 import { getUserById } from "../services/user.service.js"
+import { USER_ROLE } from "../utils/constans.js"
 
 
 const badRequestResponse = {
@@ -69,7 +70,7 @@ const validateSigninRequest = async (req, res, next) => {
 const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.headers["x-access-token"];
-    console.log("token", token)
+    // console.log("token", token)
     if(!token){
       badRequestResponse.err = "No token provided";
       return res.status(403).json(badRequestResponse);
@@ -98,8 +99,78 @@ const isAuthenticated = async (req, res, next) => {
 }
 
 
+const validateResetPasswordRequest = async (req, res, next) => {
+  // validate Old password presence
+  if(!req.body.oldPassword){
+    badRequestResponse.err.push('Missing the old password in the request');
+  }
+
+  // validate new password presence
+  if(!req.body.newPassword){
+    badRequestResponse.err.push('Missing the new password in the request');
+  }
+
+  if(badRequestResponse.err.length > 0)
+    return res.status(400).json(badRequestResponse);
+
+  //we can proceed
+  next();
+}
+
+
+const validateUpdateUserRequest = (req, res, next) => {
+  // validate presence of atleast one of the two i.e userRole or userStatus
+  // console.log("Request body:", req)
+  if(!(req.body.userRole || req.body.userStatus)){
+    badRequestResponse.err.push('Malformed request, please send alteast on parameter')
+    return res.status(400).json(badRequestResponse);
+  }
+
+  next();
+}
+
+
+const isAdmin = async (req, res, next) => {
+  console.log("req:", req.user);
+  const user = await getUserById(req.user);
+  if(user.userRole != USER_ROLE.admin){
+    badRequestResponse.err.push("User is not a admin, cannot proceed with the request")
+    return res.status(401).json(badRequestResponse)
+  }
+
+  next();
+}
+
+
+const isClient = async (req, res, next) => {
+  const user = await getUserById(req.user);
+  if(user.userRole != USER_ROLE.client){
+    badRequestResponse.err.push("User is not a client, cannot proceed with the request")
+    return res.status(401).json(badRequestResponse)
+  }
+
+  next();
+}
+
+
+const isAdminOrClient = async (req, res, next) => {
+  const user = await getUserById(req.user);
+  if(user.userRole != USER_ROLE.client && user.userRole != USER_ROLE.admin){
+    badRequestResponse.err.push("User is neither a client not an admin, cannot proceed with the request")
+    return res.status(401).json(badRequestResponse)
+  }
+
+  next();
+}
+
+
 export {
   validateSignupRequest, 
   validateSigninRequest, 
-  isAuthenticated
+  isAuthenticated,
+  validateResetPasswordRequest,
+  validateUpdateUserRequest,
+  isAdmin,
+  isClient,
+  isAdminOrClient
 }
