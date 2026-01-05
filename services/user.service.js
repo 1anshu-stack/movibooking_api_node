@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import { USER_ROLE, USER_STATUS } from "../utils/constans.js";
+import { STATUS_CODE, USER_ROLE, USER_STATUS } from "../utils/constans.js";
 
 
 const createUserfn = async (data) => {
@@ -79,7 +79,7 @@ const updateUserRoleOrstatus = async (data, userId) => {
     if(!response){ 
       throw {
         err: "No user found for the given id",
-        code: 404
+        code: STATUS_CODE.NOT_FOUND
       }
     }
 
@@ -93,7 +93,7 @@ const updateUserRoleOrstatus = async (data, userId) => {
     })
     throw {
       err: "The properties does validate the constrains, Please check",
-      code: 400
+      code: STATUS_CODE.BAD_REQUEST
     }
    }
    throw error;

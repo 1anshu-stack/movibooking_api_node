@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 
+import { STATUS_CODE } from "../utils/constans.js";
 import { createUserfn, getUserByEmail, getUserById, updateUserRoleOrstatus } from "../services/user.service.js";
 import {successResponseBody, errorResponseBody} from "../utils/responseBody.js"
 
@@ -99,14 +100,14 @@ const update = async (req, res) => {
 
     successResponseBody.data = response;
     successResponseBody.message = 'Successfully updated the user';
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     if(error.err){
       errorResponseBody.error = error.err;
       return res.status(error.code).json(errorResponseBody);
     }
     errorResponseBody.error = error;
-    return res.status(500).json(errorResponseBody);
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 }
 
