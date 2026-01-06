@@ -58,7 +58,7 @@ Forth api: /mba/api/v1/auth/user/:id
 To update: userRole and userStatus
 
 
-Branch: Feature 5 integrate auth to apis
+Branch: Feature 6 integrate auth to apis
 
 We need to add authentication and authorization for the theatre resource.
 → Add authentication in the theatre API

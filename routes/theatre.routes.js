@@ -16,13 +16,18 @@ import {
   validateTheatreCreateRequest, 
   validateUpdateMovies,
 } from "../middleware/theatre.middleware.js"
-import {isAuthenticated} from "../middleware/user.middleware.js"
+import {
+  isAuthenticated, 
+  isAdminOrClient 
+} from "../middleware/user.middleware.js"
 
 
 const routes = (app) => {
   // routes->function->takes->express->app->object->as->parameter
   app.post(
     '/mba/api/v1/theatre',
+    isAuthenticated,
+    isAdminOrClient,
     validateTheatreCreateRequest,
     createTheatre
   )

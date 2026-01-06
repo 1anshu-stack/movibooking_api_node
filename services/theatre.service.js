@@ -1,5 +1,5 @@
 import Theatre from "../models/theatre.model.js"
-
+import { STATUS_CODE } from "../utils/constans.js";
 
 
 
@@ -19,7 +19,7 @@ const createTheatrefn = async (data) => {
       Object.keys(error.errors).forEach((key) => (
         err[key] = error.errors[key].message
       ))
-      return {err: err, code: 422}
+      throw {err: err, code: STATUS_CODE.UNPROCESSABLE_ENTITY}
     }   
     else {
       throw error;

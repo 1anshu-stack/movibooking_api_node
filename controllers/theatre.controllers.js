@@ -1,5 +1,5 @@
 import { successResponseBody, errorResponseBody } from "../utils/responseBody.js";
-
+import { STATUS_CODE } from "../utils/constans.js";
 
 import { 
   createTheatrefn, 
@@ -17,18 +17,17 @@ const createTheatre = async (req, res) => {
   try{
     const response = await createTheatrefn(req.body)
     console.log("response", response);
-    if(response.err){
-      errorResponseBody.error = response.err
-      errorResponseBody.message = 'validation failed on few parameters of the request body'
-      return res.status(response.code).json(errorResponseBody);
-    }
 
     successResponseBody.data = response
     successResponseBody.message = "Successfully created the theatre"
-    return res.status(200).json(successResponseBody)
+    return res.status(STATUS_CODE.CREATED).json(successResponseBody)
   } catch(error){
-    console.log(error);
-    return res.status(500).json(errorResponseBody)
+    if(error.err){
+      errorResponseBody.error = error.err;
+      return res.status(response.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody)
   }
 }
 
