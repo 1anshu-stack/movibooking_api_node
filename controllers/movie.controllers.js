@@ -41,17 +41,18 @@ const deleteMovie = async (req, res) => {
     const response = await deleteMovieFn({
       _id: req.params.id,
     });
-    if(response.err){
-      errorResponseBody.error = response.err
-      return res.status(response.code).json(errorResponseBody)
-    }
 
     successResponseBody.data = response;
     successResponseBody.message = 'Successfully deleted the movie';
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
-    return res.status(201).json(errorResponseBody);
+    if(error.err){
+      errorResponseBody.error = error.err
+      return res.status(response.code).json(errorResponseBody)
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 

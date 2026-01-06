@@ -36,9 +36,9 @@ const deleteMovieFn = async (id) => {
   try {
     const movie = await Movie.findByIdAndDelete(id)
     if(!movie){
-      return {
+      throw {
         err: "No record of a theatre found for the given id",
-        code: 404
+        code: STATUS_CODE.NOT_FOUND
       }
     }
     
