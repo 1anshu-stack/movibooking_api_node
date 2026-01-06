@@ -56,18 +56,18 @@ const deleteTheatre = async (req, res) => {
 const getTheatre = async (req, res) => {
   try {
     const response = await getTheatrefn(req.params.id);
-    if(response.err){
-      errorResponseBody.error = response.err;
-      return res.status(response.code).json(errorResponseBody)
-    }
 
     successResponseBody.data = response;
     successResponseBody.message = "successfully fetched the data of the theatre"
-    return res.status(201).json(successResponseBody)
+    return res.status(STATUS_CODE.OK).json(successResponseBody)
   } catch (error) {
+    if(error.err){
+      errorResponseBody.error = error.err;
+      return res.status(response.code).json(errorResponseBody)
+    }
     console.log(error)
     errorResponseBody.error = error
-    return res.status(500).json(errorResponseBody)
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody)
   }
 }
 

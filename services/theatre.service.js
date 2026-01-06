@@ -60,9 +60,9 @@ const getTheatrefn = async (id) => {
   try {
     const response = await Theatre.findById(id);
     if(!response){
-      return {
+      throw {
         err: "No record of a theatre found for the given id",
-        code: 404
+        code: STATUS_CODE.NOT_FOUND
       }
     }
 
