@@ -29,7 +29,7 @@ const createMovie = async (req, res) => {
       errorResponseBody.error = error.err;
       errorResponseBody.message =
         'validation failed on few parameters of the request body';
-      return res.status(response.code).json(errorResponseBody);
+      return res.status(error.code).json(errorResponseBody);
     }
     errorResponseBody.error = error;
     return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
@@ -49,7 +49,7 @@ const deleteMovie = async (req, res) => {
     console.log(error);
     if(error.err){
       errorResponseBody.error = error.err
-      return res.status(response.code).json(errorResponseBody)
+      return res.status(error.code).json(errorResponseBody)
     }
     errorResponseBody.error = error;
     return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
@@ -59,16 +59,17 @@ const deleteMovie = async (req, res) => {
 const getMovie = async (req, res) => {
   try {
     const response = await getMovieById(req.params.id);
-    if (response.error) {
-      errorResponseBody.error = response.error;
-      return res.status(response.code).json(errorResponseBody);
-    }
 
     successResponseBody.data = response;
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
-    return res.status(500).json(errorResponseBody);
+    if (error.err) {
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
@@ -93,18 +94,19 @@ const updateMovie = async (req, res) => {
 
 const getMovies = async (req, res) => {
   try {
-    console.log(req.query)
+    // console.log(req.query)
     const response = await fetchMovies(req.query);
-    if (response.err) {
-      errorResponseBody.error = response.err;
-      return res.status(response.code).json(errorResponseBody);
-    }
+    
     successResponseBody.data = response;
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
+    if (error.err) {
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
     errorResponseBody.err = error;
-    return res.status(500).json(errorResponseBody);
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
