@@ -5,6 +5,7 @@ const badRequestResponse = {
   message: "Malformed Request | Bad Request"
 }
 
+import { STATUS_CODE } from "../utils/constans"
 /**
  * 
  * @param  req -> Http request object 
@@ -39,7 +40,7 @@ const validateMovieCreateRequest = async (req, res, next) => {
   }
 
   if(badRequestResponse.err.length > 0){
-    return res.status(400).json(badRequestResponse);
+    return res.status(STATUS_CODE.BAD_REQUEST).json(badRequestResponse);
   }
 
   next();

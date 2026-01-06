@@ -1,4 +1,5 @@
 import Movie from '../models/movie.mode.js';
+import { STATUS_CODE } from '../utils/constans.js';
 
 
 /**
@@ -17,7 +18,7 @@ const createMovieFn = async (data) => {
         err[key]=error.errors[key].message;
       });
       console.log(err);
-      return {err: err, code: 422}
+      throw {err: err, code: STATUS_CODE.NOT_FOUND}
     }
     else {
       throw error;
@@ -35,9 +36,9 @@ const deleteMovieFn = async (id) => {
   try {
     const movie = await Movie.findByIdAndDelete(id)
     if(!movie){
-      return {
+      throw {
         err: "No record of a theatre found for the given id",
-        code: 404
+        code: STATUS_CODE.NOT_FOUND
       }
     }
     
@@ -57,9 +58,9 @@ const deleteMovieFn = async (id) => {
 const getMovieById = async (id) => {
   const movie = await Movie.findById(id);
   if (!movie) {
-    return {
+    throw {
       error: 'No movie found for the corresponding id provided',
-      code: 404,
+      code: STATUS_CODE.NOT_FOUND,
     };
   }
   return movie;
@@ -83,7 +84,7 @@ const updateMoviefn = async (id, data) => {
       Object.keys(error.errors).forEach((key) => {
         err[key]=error.errors[key].message;
       });
-      return {err: err, code: 422}
+      throw {err: err, code: STATUS_CODE.UNPROCESSABLE_ENTITY}
     }
     else {
       throw error;
@@ -108,9 +109,9 @@ const fetchMovies = async (data) => {
 
   let movies = await Movie.find(query);
   if(!movies) {
-    return {
+    throw {
       err: "Not able to find the queries movies",
-      code: 404
+      code: STATUS_CODE.NOT_FOUND
     }
   }
 

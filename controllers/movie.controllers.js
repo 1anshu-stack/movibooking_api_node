@@ -8,6 +8,8 @@ import {
   fetchMovies,
 } from '../services/movie.service.js';
 
+import { STATUS_CODE } from '../utils/constans.js';
+
 import {
   successResponseBody,
   errorResponseBody,
@@ -17,19 +19,20 @@ const createMovie = async (req, res) => {
   try {
     const response = await createMovieFn(req.body);
     // console.log("response", response);
-    if (response.err) {
-      errorResponseBody.err = response.err;
-      errorResponseBody.message =
-        'validation failed on few parameters of the request body';
-      return res.status(response.code).json(errorResponseBody);
-    }
 
     successResponseBody.data = response;
     successResponseBody.message = 'Successfully created the movie';
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
-    return res.status(500).json(errorResponseBody);
+    if (error.err) {
+      errorResponseBody.error = error.err;
+      errorResponseBody.message =
+        'validation failed on few parameters of the request body';
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
@@ -38,69 +41,72 @@ const deleteMovie = async (req, res) => {
     const response = await deleteMovieFn({
       _id: req.params.id,
     });
-    if(response.err){
-      errorResponseBody.error = response.err
-      return res.status(response.code).json(errorResponseBody)
-    }
 
     successResponseBody.data = response;
     successResponseBody.message = 'Successfully deleted the movie';
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
-    return res.status(201).json(errorResponseBody);
+    if(error.err){
+      errorResponseBody.error = error.err
+      return res.status(error.code).json(errorResponseBody)
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
 const getMovie = async (req, res) => {
   try {
     const response = await getMovieById(req.params.id);
-    if (response.error) {
-      errorResponseBody.error = response.error;
-      return res.status(response.code).json(errorResponseBody);
-    }
 
     successResponseBody.data = response;
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
-    return res.status(500).json(errorResponseBody);
+    if (error.err) {
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
 const updateMovie = async (req, res) => {
   try {
     const response = await updateMoviefn(req.params.id, req.body);
-    if (response.err) {
-      errorResponseBody.err = response.err;
-      errorResponseBody.message =
-        'validation failed on few parameters of the request body';
-      return res.status(response.code).json(errorResponseBody);
-    }
-
+    
     successResponseBody.data = response;
     successResponseBody.message = 'Successfully created the movie';
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      errorResponseBody.message =
+        'validation failed on few parameters of the request body';
+      return res.status(error.code).json(errorResponseBody);
+    }
     errorResponseBody.error = error;
-    return res.status(500).json(errorResponseBody);
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
 const getMovies = async (req, res) => {
   try {
-    console.log(req.query)
+    // console.log(req.query)
     const response = await fetchMovies(req.query);
-    if (response.err) {
-      errorResponseBody.error = response.err;
-      return res.status(response.code).json(errorResponseBody);
-    }
+    
     successResponseBody.data = response;
-    return res.status(200).json(successResponseBody);
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
   } catch (error) {
     console.log(error);
+    if (error.err) {
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
     errorResponseBody.err = error;
-    return res.status(500).json(errorResponseBody);
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 
