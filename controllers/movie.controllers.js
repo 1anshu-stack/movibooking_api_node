@@ -8,6 +8,8 @@ import {
   fetchMovies,
 } from '../services/movie.service.js';
 
+import { STATUS_CODE } from '../utils/constans.js';
+
 import {
   successResponseBody,
   errorResponseBody,
@@ -17,19 +19,20 @@ const createMovie = async (req, res) => {
   try {
     const response = await createMovieFn(req.body);
     // console.log("response", response);
-    if (response.err) {
-      errorResponseBody.err = response.err;
+
+    successResponseBody.data = response;
+    successResponseBody.message = 'Successfully created the movie';
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
+  } catch (error) {
+    console.log(error);
+    if (error.err) {
+      errorResponseBody.error = error.err;
       errorResponseBody.message =
         'validation failed on few parameters of the request body';
       return res.status(response.code).json(errorResponseBody);
     }
-
-    successResponseBody.data = response;
-    successResponseBody.message = 'Successfully created the movie';
-    return res.status(200).json(successResponseBody);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(errorResponseBody);
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 };
 

@@ -1,4 +1,5 @@
 import Movie from '../models/movie.mode.js';
+import { STATUS_CODE } from '../utils/constans.js';
 
 
 /**
@@ -17,7 +18,7 @@ const createMovieFn = async (data) => {
         err[key]=error.errors[key].message;
       });
       console.log(err);
-      return {err: err, code: 422}
+      throw {err: err, code: STATUS_CODE.NOT_FOUND}
     }
     else {
       throw error;
