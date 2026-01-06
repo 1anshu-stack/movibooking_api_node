@@ -35,6 +35,7 @@ const routes = (app) => {
   app.delete(
     '/mba/api/v1/theatre/:id',
     isAuthenticated,
+    isAdminOrClient,
     deleteTheatre
   )
 
