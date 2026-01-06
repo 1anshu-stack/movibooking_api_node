@@ -51,11 +51,15 @@ const routes = (app) => {
 
   app.put(
     '/mba/api/v1/theatre/:id',
+    isAuthenticated,
+    isAdminOrClient,
     updateTheatre
   )
 
   app.patch(
     '/mba/api/v1/theatre/:id',
+    isAuthenticated,
+    isAdminOrClient,
     updateTheatre
   )
 
