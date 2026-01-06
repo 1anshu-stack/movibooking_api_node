@@ -66,3 +66,9 @@ We need to add authentication and authorization for the theatre resource.
 → Admins or clients can create / delete / update any theatre.
 
 
+Bookings and transactions
+
+→ Setup model schema for booking and transaction.
+→ Authenticated APIs for allowing only authenticated customers to perform booking.
+→ Ability to cancel the booking.
+→ Ability to make payment.
