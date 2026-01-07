@@ -72,3 +72,10 @@ Bookings and transactions
 → Authenticated APIs for allowing only authenticated customers to perform booking.
 → Ability to cancel the booking.
 → Ability to make payment.
+
+Branch: Feature_7_Bookings
+
+createBooking api: localhost:4000/mba/api/v1/booking
+
+updateBooking api: localhost:4000/mba/api/v1/booking/:id
+If it’s a normal user, they can only cancel the booking and nothing else. validation middleware
