@@ -75,7 +75,12 @@ Bookings and transactions
 
 Branch: Feature_7_Bookings
 
-createBooking api: localhost:4000/mba/api/v1/booking
+createBooking api: /mba/api/v1/booking
 
-updateBooking api: localhost:4000/mba/api/v1/booking/:id
+updateBooking api: /mba/api/v1/booking/:id
 If it’s a normal user, they can only cancel the booking and nothing else. validation middleware
+
+getAllBooking api: /mba/api/v1/booking
+Logedin user show booking respect to that not all user booking.
+
+getAllTheBookingOfAParticularBookingId: /mba/api/v1/booking/:id

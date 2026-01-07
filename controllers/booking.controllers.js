@@ -1,6 +1,6 @@
 import { successResponseBody, errorResponseBody } from "../utils/responseBody.js"
 import { STATUS_CODE } from "../utils/constans.js";
-import { createBooking, updateBookingfn } from "../services/booking.service.js";
+import { createBooking, getAllBookingsfn, getBookingByIdfn, getBookingsfn, updateBookingfn } from "../services/booking.service.js";
 
 
 // create booking controller
@@ -43,7 +43,53 @@ const update = async (req, res) => {
   }
 }
 
+// getBookings
+const getBookings = async (req, res) => {
+  try {
+    const response = await getBookingsfn({userId: req.user});
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully fetched the bookings"
+    return res.status(STATUS_CODE.OK).json(successResponseBody)
+  } catch (error) {
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody)
+  }
+}
+
+// getAllBookings
+const getAllBookings = async (req, res) => {
+  try {
+    const response = await getAllBookingsfn();
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully fetched the bookings"
+    return res.status(STATUS_CODE.OK).json(successResponseBody)
+  } catch (error) {
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody)
+  }
+}
+
+
+const getBookingById = async (req, res) => {
+  try {
+    const response = await getBookingByIdfn(req.params.id, req.user);
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully fetched the booking";
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
+  } catch (error) {
+    if(error.err){
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.err = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody)
+  }
+}
+
 export {
   create,
-  update
+  update,
+  getBookings,
+  getAllBookings,
+  getBookingById
 }

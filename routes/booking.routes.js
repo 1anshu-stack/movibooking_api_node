@@ -1,6 +1,6 @@
-import { create, update } from "../controllers/booking.controllers.js"
+import { create, update, getBookings, getAllBookings, getBookingById } from "../controllers/booking.controllers.js"
 
-import { isAuthenticated } from "../middleware/user.middleware.js";
+import { isAdmin, isAuthenticated } from "../middleware/user.middleware.js";
 
 import { validateBookingCreateRequest, canChangeStatus } from "../middleware/booking.middleware.js";
 
@@ -20,6 +20,24 @@ const routes = (app) => {
     isAuthenticated,
     canChangeStatus,
     update
+  )
+
+  app.get(
+    '/mba/api/v1/booking',
+    isAuthenticated,
+    isAdmin,
+    getBookings
+  )
+
+  app.get(
+    '/mba/api/v1/booking/all',
+    getAllBookings
+  )
+
+  app.get(
+    '/mba/api/v1/booking/:id',
+    isAuthenticated,
+    getBookingById
   )
 }
 
