@@ -1,6 +1,14 @@
-import { createShowfn } from "../services/show.service.js";
-import { STATUS_CODE } from "../utils/constans.js";
-import { errorResponseBody, successResponseBody } from "../utils/responseBody.js";
+import { 
+  createShowfn, 
+  getShowsfn 
+} from "../services/show.service.js";
+import { 
+  STATUS_CODE 
+} from "../utils/constans.js";
+import { 
+  errorResponseBody, 
+  successResponseBody 
+} from "../utils/responseBody.js";
 
 
 const createShow = async (req, res) => {
@@ -19,7 +27,25 @@ const createShow = async (req, res) => {
   }
 }
 
+const getShow = async (req, res) => {
+  try {
+    // console.log(req.query);
+    const response = await getShowsfn(req.query)
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully fetch the moves shows"
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
+  } catch (error) {
+    if(error.err){
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
+  }
+}
 
 export {
-  createShow
+  createShow,
+  getShow
 }

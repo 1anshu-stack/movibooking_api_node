@@ -93,3 +93,6 @@ We are going to perpare show model.
 
 createShow api: /mba/api/v1/booking
 with theatreid, movieid, noOfSeats, price, timing
+
+newAPI to get all the show of a movie running in a theatre
+api: /mba/api/show?theatreId=<>&movieId=<>

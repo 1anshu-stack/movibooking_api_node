@@ -44,6 +44,30 @@ const createShowfn = async (data) => {
 }
 
 
+const getShowsfn = async (data) => {
+  try {
+    let filter = {}
+    if(data.theatreId){
+      filter.theatreId = data.theatreId
+    }
+    if(data.movieId){
+      filter.movieId = data.movieId
+    }
+    const response = await Show.find(filter);
+    if(!response){
+      throw {
+        err: "No show found",
+        code: STATUS_CODE.NOT_FOUND
+      }
+    }
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export {
-  createShowfn
+  createShowfn,
+  getShowsfn
 }
