@@ -91,3 +91,5 @@ getAllTheBookingOfAParticularBookingId: /mba/api/v1/booking/:id
 In Theatre model we are just having list of movies which are running in a theatre. We don't have the details about the shows that what are the different show timings available for a movie and what are the seats available for that particular show. What's the hall number.
 We are going to perpare show model.
 
+createShow api: /mba/api/v1/booking
+with theatreid, movieid, noOfSeats, price, timing

@@ -27,5 +27,5 @@ const showSchema = new mongoose.Schema({
   }
 }, {timestamps: true})
 
-const Show = mongoose.Model("Show", showSchema)
+const Show = mongoose.model("Show", showSchema)
 export default Show;
