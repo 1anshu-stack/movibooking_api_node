@@ -67,7 +67,57 @@ const getShowsfn = async (data) => {
   }
 }
 
+
+const deleteShowfn = async (id) => {
+  try {
+    const response = await Show.findIdAndDelete(id);
+    if(!response){
+      throw {
+        err: "No show found",
+        code: STATUS_CODE.NOT_FOUND
+      }
+    }
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const updateShowfn = async (id, data) => {
+  try {
+    const response = await Show.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true
+    })
+    if(!response){
+      throw {
+        err: "No show found for the given Id",
+        code: STATUS_CODE.NOT_FOUND
+      }
+    }
+
+    return response;
+  } catch (error) {
+    if(error.name == 'ValidationError'){
+      let err = {};
+      Object.keys(error.errors).forEach(key => {
+        err[key] = error.errors[key].message;
+      })
+      throw {
+        err,
+        code: STATUS_CODE.UNPROCESSABLE_ENTITY
+      }
+    }
+    console.log(error);
+    throw error;
+  }
+}
+
+
 export {
   createShowfn,
-  getShowsfn
+  getShowsfn,
+  deleteShowfn,
+  updateShowfn
 }
