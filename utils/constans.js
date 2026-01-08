@@ -23,8 +23,23 @@ const STATUS_CODE = {
 }
 
 
+const BOOKING_STATUS = {
+  cancelled: "CANCELLED",
+  successfull: "SUCCESSFULL",
+  processing: "IN_PROCESS"
+}
+
+const PAYMENT_STATUS = {
+  failed: "FAILED",
+  success: "SUCCESS",
+  pending: "PENDING"
+}
+
+
 export {
   USER_STATUS,
   USER_ROLE,
-  STATUS_CODE
+  STATUS_CODE,
+  BOOKING_STATUS,
+  PAYMENT_STATUS
 }

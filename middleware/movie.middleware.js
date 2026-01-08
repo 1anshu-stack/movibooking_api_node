@@ -5,7 +5,7 @@ const badRequestResponse = {
   message: "Malformed Request | Bad Request"
 }
 
-import { STATUS_CODE } from "../utils/constans"
+import { STATUS_CODE } from "../utils/constans.js"
 /**
  * 
  * @param  req -> Http request object 
