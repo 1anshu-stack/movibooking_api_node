@@ -11,10 +11,10 @@ const payment = new mongoose.Schema({
   amount: {
     type: Number,
     required: true,
-  },
+  }, 
   status: {
     type: String,
-    required: true,
+    required: true, 
     enum: {
       values: [PAYMENT_STATUS.success, PAYMENT_STATUS.failed, PAYMENT_STATUS.pending],
       message: "Invalid payment status"

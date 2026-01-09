@@ -6,6 +6,7 @@ import TheatreRouter from "./routes/theatre.routes.js"
 import AuthRouter from "./routes/user.routes.js"
 import BookeingRouter from "./routes/booking.routes.js"
 import ShowRoutes from "./routes/show.routes.js"
+import PaymentRoutes from "./routes/payment.routes.js"
 
 
 const app = express();
@@ -31,6 +32,7 @@ TheatreRouter(app);
 AuthRouter(app);
 BookeingRouter(app);
 ShowRoutes(app);
+PaymentRoutes(app);
 
 
 app.listen( port || 4000, () => {

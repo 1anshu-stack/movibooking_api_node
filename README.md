@@ -96,3 +96,8 @@ with theatreid, movieid, noOfSeats, price, timing
 
 newAPI to get all the show of a movie running in a theatre
 api: /mba/api/show?theatreId=<>&movieId=<>
+
+
+Payment:
+
+createPaymentApi: /mba/api/v1/payment
