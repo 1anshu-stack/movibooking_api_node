@@ -1,12 +1,22 @@
 import Payment from "../models/payment.model.js";
 import Booking from "../models/booking.model.js";
-import { STATUS_CODE, BOOKING_STATUS, PAYMENT_STATUS, USER_ROLE } from "../utils/constans.js";
 import User from "../models/user.model.js";
+import Show from "../models/show.model.js";
+import { STATUS_CODE, BOOKING_STATUS, PAYMENT_STATUS, USER_ROLE } from "../utils/constans.js";
 
 
 const createPaymentfn = async (data) => {
   try {
+    // find booking by id
     const booking = await Booking.findById(data.bookingId);
+    
+    // find show
+    const show = await Show.findOne({
+      movieId: booking.movieId,
+      theatreId: booking.theatreId,
+      timing: booking.timing
+    })
+
     if(booking.status == BOOKING_STATUS.successfull){
       throw {
         err: "Booking already done, cannot make a new payment against it",
@@ -29,14 +39,12 @@ const createPaymentfn = async (data) => {
       await booking.save();
       return booking;
     }
-
+    
     const payment = await Payment.create({
       bookingId: data.bookingId,
-      amount: data.amount
+      amount: booking.totalCost
     });
-    if(payment.amount != booking.totalCost){
-      payment.status = PAYMENT_STATUS.failed
-    }
+    
     if(!payment || payment.status == PAYMENT_STATUS.failed){
       booking.status = BOOKING_STATUS.cancelled;
       await booking.save();
@@ -46,12 +54,14 @@ const createPaymentfn = async (data) => {
 
     payment.status = PAYMENT_STATUS.success;
     booking.status = BOOKING_STATUS.successfull;
+    show.noOfSeats -= Number(booking.noOfSeats);
+    await show.save();
     await booking.save();
     await payment.save();
     return booking;
 
   } catch (error) {
-    console.log("error in servie", error.errors);
+    console.log("error in servie", error);
     throw error;
   }
 }

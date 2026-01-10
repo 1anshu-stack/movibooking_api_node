@@ -16,10 +16,10 @@ const verifyPaymentCreateRequest = async (req, res, next) => {
     return res.status(STATUS_CODE.BAD_REQUEST).json(errorResponseBody)
   }
 
-  if(!req.body.amount){
-    errorResponseBody.error = "No amount set";
-    return res.status(STATUS_CODE.BAD_REQUEST).json(errorResponseBody)
-  }
+  // if(!req.body.amount){
+  //   errorResponseBody.error = "No amount set";
+  //   return res.status(STATUS_CODE.BAD_REQUEST).json(errorResponseBody)
+  // }
 
   next();
 }
