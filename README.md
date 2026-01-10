@@ -101,3 +101,5 @@ api: /mba/api/show?theatreId=<>&movieId=<>
 Payment:
 
 createPaymentApi: /mba/api/v1/payment
+
+To fetch all payments made by a user, the Payment model does not directly reference the user ID. It references a booking, and the Booking model contains the userId. Therefore, we first retrieve all bookings for the user and then fetch the payments associated with those bookings.

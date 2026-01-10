@@ -1,6 +1,7 @@
 import Payment from "../models/payment.model.js";
 import Booking from "../models/booking.model.js";
-import { STATUS_CODE, BOOKING_STATUS, PAYMENT_STATUS } from "../utils/constans.js";
+import { STATUS_CODE, BOOKING_STATUS, PAYMENT_STATUS, USER_ROLE } from "../utils/constans.js";
+import User from "../models/user.model.js";
 
 
 const createPaymentfn = async (data) => {
@@ -60,6 +61,7 @@ const getPaymentByIdfn = async (id) => {
   try {
     // use populate bcz i also want to show the detail of booking.
     const response = await Payment.findById(id).populate('bookingId');
+    console.log("response", response)
     if(!response){
       throw {
         err: 'No payment found for this id',
@@ -74,7 +76,31 @@ const getPaymentByIdfn = async (id) => {
   }
 }
 
+
+const getAllPaymentfn = async (userId) => {
+  try{
+    const user = await User.findById(userId)
+    let filter = {};
+    if(user.userRole != USER_ROLE.admin){
+      filter["userId"] = user.id;
+    }
+    // console.log("filter", filter)
+
+    const bookings = await Booking.find(filter).select({_id:1})
+    // console.log("bookings", bookings);
+
+    const payments = await Payment.find({bookingId: {$in:bookings}})
+    // console.log("payments", payments);
+    return payments;
+  }catch(error){
+    console.log("getAllUserPaymentfn", error);
+    throw error;
+  }
+}
+
+
 export {
   createPaymentfn,
-  getPaymentByIdfn
+  getPaymentByIdfn,
+  getAllPaymentfn
 }

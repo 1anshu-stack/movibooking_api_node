@@ -1,6 +1,18 @@
-import { createPaymentfn, getPaymentByIdfn } from "../services/payment.service.js";
-import { BOOKING_STATUS, STATUS_CODE } from "../utils/constans.js";
-import { errorResponseBody, successResponseBody } from "../utils/responseBody.js";
+import { 
+  createPaymentfn, 
+  getPaymentByIdfn,
+  getAllPaymentfn
+} from "../services/payment.service.js";
+
+import { 
+  BOOKING_STATUS, 
+  STATUS_CODE 
+} from "../utils/constans.js";
+
+import { 
+  errorResponseBody, 
+  successResponseBody 
+} from "../utils/responseBody.js";
 
 
 const create = async (req, res) => {
@@ -32,6 +44,7 @@ const create = async (req, res) => {
   }
 }
 
+
 const getPaymentById = async (req, res) => {
   try {
     const response = await getPaymentByIdfn(req.params.id);
@@ -49,7 +62,26 @@ const getPaymentById = async (req, res) => {
   }
 }
 
+
+const getAllUserPayment = async (req, res) => {
+  try {
+    const response = await getAllPaymentfn(req.user);
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully fetched all the payment details"
+    return res.status(STATUS_CODE.OK).json(successResponseBody);
+  } catch (error) {
+    if(error.err){
+      errorResponseBody.error = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.error = error;
+      return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponseBody);
+  }
+}
+
+
 export {
   create,
-  getPaymentById
+  getPaymentById,
+  getAllUserPayment
 }
