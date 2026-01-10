@@ -24,8 +24,9 @@ const createShowfn = async (data) => {
         code: STATUS_CODE.NOT_FOUND
       }
     }
-
+    
     const response = await Show.create(data);
+    console.log("Show response", response);
     return response;
   } catch (error) {
     if(error.name == "ValidationError"){

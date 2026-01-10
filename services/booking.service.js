@@ -1,12 +1,23 @@
 import Booking from "../models/booking.model.js";
+import Show from "../models/show.model.js"
 import { STATUS_CODE } from "../utils/constans.js";
 
 
 const createBooking = async (data) => {
   try {
-    // console.log("data", data)
+    const show = await Show.find({
+      movieId: data.movieId, 
+      theatreId: data.theatreId, 
+      timing: data.timing
+    })
+
+    data.totalCost = show[0].price * Number(data.noOfSeats);
+
     const response = await Booking.create(data);
-    console.log("response:", response);
+    // console.log("response:", response);
+
+    await show.save()
+
     return response;
   } catch (error) {
     if(error.name == 'ValidationError'){
