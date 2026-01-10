@@ -1,14 +1,17 @@
 import mongoose from "mongoose";
-// import Theatre from "./theatre.model";
+import Theatre from "./theatre.model.js";
+import Movie from "./movie.mode.js";
 
 const showSchema = new mongoose.Schema({
   theatreId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'Theatre'
   },
   movieId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'Movie'
   },
   timing: {
     type: String,

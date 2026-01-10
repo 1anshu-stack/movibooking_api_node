@@ -6,6 +6,12 @@ import { STATUS_CODE, BOOKING_STATUS, PAYMENT_STATUS } from "../utils/constans.j
 const createPaymentfn = async (data) => {
   try {
     const booking = await Booking.findById(data.bookingId);
+    if(booking.status == BOOKING_STATUS.successfull){
+      throw {
+        err: "Booking already done, cannot make a new payment against it",
+        code: STATUS_CODE.FORBIDDEN
+      }
+    }
     if(!booking){
       throw {
         err: 'No booking found',
@@ -50,6 +56,25 @@ const createPaymentfn = async (data) => {
 }
 
 
+const getPaymentByIdfn = async (id) => {
+  try {
+    // use populate bcz i also want to show the detail of booking.
+    const response = await Payment.findById(id).populate('bookingId');
+    if(!response){
+      throw {
+        err: 'No payment found for this id',
+        code: STATUS_CODE.NOT_FOUND
+      }
+    }
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export {
-  createPaymentfn
+  createPaymentfn,
+  getPaymentByIdfn
 }
