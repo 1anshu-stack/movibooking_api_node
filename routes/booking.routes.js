@@ -8,7 +8,7 @@ const routes = (app) => {
 
   // create booking
   app.post(
-    '/mba/api/v1/booking',
+    '/mba/api/v1/bookings',
     isAuthenticated,
     validateBookingCreateRequest,
     create
@@ -16,26 +16,26 @@ const routes = (app) => {
 
   // update
   app.patch(
-    '/mba/api/v1/booking/:id',
+    '/mba/api/v1/bookings/:id',
     isAuthenticated,
     canChangeStatus,
     update
   )
 
   app.get(
-    '/mba/api/v1/booking',
+    '/mba/api/v1/bookings',
     isAuthenticated,
     isAdmin,
     getBookings
   )
 
   app.get(
-    '/mba/api/v1/booking/all',
+    '/mba/api/v1/bookings/all',
     getAllBookings
   )
 
   app.get(
-    '/mba/api/v1/booking/:id',
+    '/mba/api/v1/bookings/:id',
     isAuthenticated,
     getBookingById
   )

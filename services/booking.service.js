@@ -5,19 +5,21 @@ import { STATUS_CODE } from "../utils/constans.js";
 
 const createBooking = async (data) => {
   try {
+
+    console.log("data", data)
     const show = await Show.find({
       movieId: data.movieId, 
       theatreId: data.theatreId, 
       timing: data.timing
     })
 
+    if (!show) {
+      throw { err: "Show not found", code: STATUS_CODE.NOT_FOUND };
+    }
+
     data.totalCost = show[0].price * Number(data.noOfSeats);
 
     const response = await Booking.create(data);
-    // console.log("response:", response);
-
-    await show.save()
-
     return response;
   } catch (error) {
     if(error.name == 'ValidationError'){
@@ -30,6 +32,9 @@ const createBooking = async (data) => {
         code: STATUS_CODE.UNPROCESSABLE_ENTITY
       }
     }
+
+    console.log("booking create service", error);
+    throw error;
   }
 }
 

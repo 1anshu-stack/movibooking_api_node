@@ -1,3 +1,6 @@
+import axios from "axios"
+
+
 import { 
   createPaymentfn, 
   getPaymentByIdfn,
@@ -15,10 +18,15 @@ import {
 } from "../utils/responseBody.js";
 
 
+import User from "../models/user.model.js";
+import Movie from "../models/movie.mode.js";
+import Theatre from "../models/theatre.model.js";
+
+
 const create = async (req, res) => {
   try {
     const response = await createPaymentfn(req.body);
-    // console.log("response", response)
+    
     if(response.status == BOOKING_STATUS.expired){
       errorResponseBody.error = 'The payment took more than 5 minutes to get processed, hence your booking got expired, please try again'
       errorResponseBody.data = response
@@ -30,8 +38,30 @@ const create = async (req, res) => {
       return res.status(STATUS_CODE.PAYMENT_REQUIRED).json(errorResponseBody);
     }
 
+    const user = await User.findById(response.userId);
+    const movie = await Movie.findById(response.movieId);
+    const theatre = await Theatre.findById(response.theatreId);
+    if (!user || !movie || !theatre) {
+      throw {
+        err: "Invalid booking data. User/Movie/Theatre not found",
+        code: STATUS_CODE.UNPROCESSABLE_ENTITY
+      };
+    }
+
     successResponseBody.data = response;
     successResponseBody.message = "Booking completed successfully"
+    console.log("1")
+
+    // Fire & forget notification (do NOT block booking)
+    axios.post(process.env.NOTI_SERVICE + "/notiservice/api/v1/notifications", {
+      subject: "Your booking is successful",
+      recepientEmails: [user.email],
+      content: `Your booking for ${movie.name} in ${theatre.name} for ${response.noOfSeats} seats on ${response.timing} is successful. Your booking id is ${response.id}`
+    }).catch(err => {
+      console.log("Notification failed:", err.message);
+    });
+    
+    console.log("response", response, process.env.NOTI_SERVICE)
     return res.status(STATUS_CODE.OK).json(successResponseBody)
   }catch(error) {
     if(error.err){
