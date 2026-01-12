@@ -12,14 +12,19 @@ import {
   checkMovieInTheatrefn
 } from "../services/theatre.service.js"
 
+import sendMail from "../services/email.service.js";
 
 const createTheatre = async (req, res) => {
   try{
+    // console.log("response", response);
     const response = await createTheatrefn({...req.body, owner: req.user})
-    console.log("response", response);
 
     successResponseBody.data = response
     successResponseBody.message = "Successfully created the theatre"
+
+    const subject = "Successfull created a theatre";
+    const content = `You have successfully created a new theatre`
+    sendMail(subject, req.user, content)
     return res.status(STATUS_CODE.CREATED).json(successResponseBody)
   } catch(error){
     if(error.err){

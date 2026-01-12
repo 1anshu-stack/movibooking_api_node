@@ -38,22 +38,22 @@ const validateTheatreCreateRequest = async (req, res, next) => {
  */
 const validateUpdateMovies = async (req, res, next) => {
   if(req.body.insert === undefined){
-    errorResponseBody.message = "The insert parameter is missing in the request";
+    errorResponseBody.error = "The insert parameter is missing in the request";
     return res.status(400).json(errorResponseBody);
   }
 
   if(!req.body.movieIds){
-    errorResponseBody.message = "No movies present in the request to be updated in theatre";
+    errorResponseBody.error = "No movies present in the request to be updated in theatre";
     return res.status(400).json(errorResponseBody);
   }
 
   if(!(req.body.movieIds instanceof Array)){
-    errorResponseBody.message = "Expected array of movies but found something else";
+    errorResponseBody.error = "Expected array of movies but found something else";
     return res.status(400).json(errorResponseBody);
   }
 
   if(req.body.movieIds.length <= 0){
-    errorResponseBody.message = "No movies present in the array provided";
+    errorResponseBody.error = "No movies present in the array provided";
     return res.status(400).json(errorResponseBody);
   }
 

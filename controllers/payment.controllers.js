@@ -1,6 +1,3 @@
-import axios from "axios"
-
-
 import { 
   createPaymentfn, 
   getPaymentByIdfn,
@@ -22,6 +19,7 @@ import User from "../models/user.model.js";
 import Movie from "../models/movie.mode.js";
 import Theatre from "../models/theatre.model.js";
 
+import sendMail from "../services/email.service.js";
 
 const create = async (req, res) => {
   try {
@@ -50,18 +48,12 @@ const create = async (req, res) => {
 
     successResponseBody.data = response;
     successResponseBody.message = "Booking completed successfully"
-    console.log("1")
 
-    // Fire & forget notification (do NOT block booking)
-    axios.post(process.env.NOTI_SERVICE + "/notiservice/api/v1/notifications", {
-      subject: "Your booking is successful",
-      recepientEmails: [user.email],
-      content: `Your booking for ${movie.name} in ${theatre.name} for ${response.noOfSeats} seats on ${response.timing} is successful. Your booking id is ${response.id}`
-    }).catch(err => {
-      console.log("Notification failed:", err.message);
-    });
-    
-    console.log("response", response, process.env.NOTI_SERVICE)
+    const subject = "Your booking is successfull";
+    const content = `Your booking for ${movie.name} in ${theatre.name} for ${response.noOfSeats} seats on ${response.timing} is successful. Your booking id is ${response.id}`
+
+    sendMail(subject, response.userId, content)
+    // console.log("response", response, process.env.NOTI_SERVICE)
     return res.status(STATUS_CODE.OK).json(successResponseBody)
   }catch(error) {
     if(error.err){
