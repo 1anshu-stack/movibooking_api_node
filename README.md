@@ -108,3 +108,10 @@ createPaymentApi: /mba/api/v1/payment
 * In show model we have totalNoSeats, and in the booking model we are reserving someNoOfSeats, in showModel we have a price and in the booking model we have a totalcost. So, the number of seats you are getting the total cost already get populated.
 
 * Main service and Notification service communication after successful payment. There are multiple library in node to make an http call("axios, node-rest-client").
+
+
+
+
+Production:
+We use two database for development and production.
+
