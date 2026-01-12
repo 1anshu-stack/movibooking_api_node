@@ -15,7 +15,7 @@ import {
 
 const createTheatre = async (req, res) => {
   try{
-    const response = await createTheatrefn(req.body)
+    const response = await createTheatrefn({...req.body, owner: req.user})
     console.log("response", response);
 
     successResponseBody.data = response
