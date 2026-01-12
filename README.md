@@ -106,3 +106,4 @@ createPaymentApi: /mba/api/v1/payment
 
 
 * In show model we have totalNoSeats, and in the booking model we are reserving someNoOfSeats, in showModel we have a price and in the booking model we have a totalcost. So, the number of seats you are getting the total cost already get populated.
+
